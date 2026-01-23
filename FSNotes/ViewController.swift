@@ -143,8 +143,6 @@ class ViewController: EditorViewController,
     @IBOutlet weak var counter: NSTextField!
     @IBOutlet weak var notesCounter: NSTextField!
     
-    @IBOutlet weak var notesListFooter: NotesCounterView!
-    @IBOutlet weak var editorFooter: NSView!
     @IBOutlet weak var notesListFooterHeight: NSLayoutConstraint!
     @IBOutlet weak var editorFooterHeight: NSLayoutConstraint!
     

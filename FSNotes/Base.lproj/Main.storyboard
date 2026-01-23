@@ -2089,9 +2089,7 @@ CA
                         <outlet property="nonSelectedLabel" destination="FvZ-Tf-26e" id="fa6-EA-riA"/>
                         <outlet property="noteMenu" destination="AaK-Xd-i52" id="t41-7H-k7N"/>
                         <outlet property="notesCounter" destination="xOb-jd-sez" id="57q-6u-ogh"/>
-                        <outlet property="notesListFooter" destination="nVd-Zp-Vjx" id="ftr-OL-789"/>
                         <outlet property="notesListFooterHeight" destination="eLj-20-oK1" id="ftr-HC-001"/>
-                        <outlet property="editorFooter" destination="CPU-ij-IKt" id="ftr-OL-012"/>
                         <outlet property="editorFooterHeight" destination="9A6-2x-DoV" id="ftr-HC-002"/>
                         <outlet property="notesListCustomView" destination="8ej-mX-KM6" id="yDe-gf-AHy"/>
                         <outlet property="notesScrollView" destination="Kzf-Jh-YEb" id="u8R-Hy-KjV"/>
