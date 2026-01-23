@@ -51,12 +51,11 @@ class AboutViewController: NSViewController, NSTableViewDataSource, NSTableViewD
     ]
     
     override func viewDidLoad() {
-        if let dictionary = Bundle.main.infoDictionary,
-            let ver = dictionary["CFBundleShortVersionString"] as? String,
-            let build = dictionary["CFBundleVersion"] as? String {
-            versionLabel.stringValue = "Version \(ver) (\(build))"
-            versionLabel.isSelectable = true
-        }
+        let dictionary = Bundle.main.infoDictionary
+        let ver = dictionary?["CFBundleShortVersionString"] as? String ?? "?"
+        let build = dictionary?["CFBundleVersion"] as? String ?? "?"
+        versionLabel.stringValue = "Version \(ver) (\(build))\n(Gwyn's fork)"
+        versionLabel.isSelectable = true
         
         translatorsList.delegate = self
         translatorsList.dataSource = self
