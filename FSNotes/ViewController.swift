@@ -527,24 +527,41 @@ class ViewController: EditorViewController,
         let contentsContainer = NSView()
         contentsContainer.autoresizingMask = [.width, .height]
         
-        // Create header view for Contents label
+        // Create header view for Contents label (use constraints for reliable positioning)
         let headerHeight: CGFloat = 38
-        let headerView = NSView(frame: NSRect(x: 0, y: scrollFrame.height - headerHeight, width: 200, height: headerHeight))
-        headerView.autoresizingMask = [.width, .minYMargin]
+        let headerView = NSView()
+        headerView.translatesAutoresizingMaskIntoConstraints = false
         
         let headerLabel = NSTextField(labelWithString: NSLocalizedString("Contents", comment: "Contents panel header"))
         headerLabel.font = NSFont.systemFont(ofSize: 11, weight: .semibold)
         headerLabel.textColor = NSColor.secondaryLabelColor
-        headerLabel.frame = NSRect(x: 10, y: (headerHeight - 16) / 2, width: 180, height: 16)
-        headerLabel.autoresizingMask = [.maxXMargin]
+        headerLabel.translatesAutoresizingMaskIntoConstraints = false
         
         headerView.addSubview(headerLabel)
         
-        // Position the scroll view below the header
-        contentsScrollView.frame = NSRect(x: 0, y: 0, width: 200, height: scrollFrame.height - headerHeight)
+        // Use constraints for scroll view positioning
+        contentsScrollView.translatesAutoresizingMaskIntoConstraints = false
         
         contentsContainer.addSubview(headerView)
         contentsContainer.addSubview(contentsScrollView)
+        
+        NSLayoutConstraint.activate([
+            // Header at top
+            headerView.topAnchor.constraint(equalTo: contentsContainer.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: contentsContainer.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: contentsContainer.trailingAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: headerHeight),
+            
+            // Label inside header
+            headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10),
+            headerLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            
+            // Scroll view below header, filling rest of space
+            contentsScrollView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+            contentsScrollView.leadingAnchor.constraint(equalTo: contentsContainer.leadingAnchor),
+            contentsScrollView.trailingAnchor.constraint(equalTo: contentsContainer.trailingAnchor),
+            contentsScrollView.bottomAnchor.constraint(equalTo: contentsContainer.bottomAnchor)
+        ])
         
         // Remove editAreaScroll from its current position
         // First, deactivate any constraints involving editAreaScroll
