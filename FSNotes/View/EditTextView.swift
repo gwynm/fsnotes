@@ -835,6 +835,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         viewDelegate?.restoreScrollPosition()
+        viewDelegate?.updateContentsPanel()
     }
 
     private func loadMarkdownWebView(note: Note, force: Bool) {
@@ -851,6 +852,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 if let point = self?.note?.contentOffsetWeb {
                     self?.markdownView?.restoreScrollPosition(point)
                 }
+                self?.viewDelegate?.updateContentsPanel()
             })
             markdownView = containerView
             
@@ -865,6 +867,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
             /// Load note if needed
             markdownView?.webView.load(note: note, force: force)
+            viewDelegate?.updateContentsPanel()
         }
     }
 

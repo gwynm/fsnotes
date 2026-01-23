@@ -146,6 +146,11 @@ class ViewController: EditorViewController,
     @IBOutlet weak var notesListFooterHeight: NSLayoutConstraint!
     @IBOutlet weak var editorFooterHeight: NSLayoutConstraint!
     
+    // MARK: - Contents Panel
+    public var contentsSplitView: ContentsSplitView?
+    public var contentsOutlineView: ContentsOutlineView?
+    public var contentsScrollView: NSScrollView?
+    
     // MARK: - Overrides
     
     override func viewDidLoad() {
@@ -169,6 +174,7 @@ class ViewController: EditorViewController,
         configureDelegates()
         configureLayout()
         configureEditor()
+        configureContentsPanel()
 
         // Must before event manager starts
         self.storage.checkWelcome()
@@ -470,6 +476,203 @@ class ViewController: EditorViewController,
         vcNonSelectedLabel = nonSelectedLabel
         
         super.initView()
+    }
+    
+    private func configureContentsPanel() {
+        // Get the editor's parent view (EditorView)
+        guard let editorView = editAreaScroll.superview else { return }
+        
+        // Store the original frame of editAreaScroll before we modify anything
+        let scrollFrame = editAreaScroll.frame
+        
+        // Create the contents split view - this will hold the editor scroll view and contents panel
+        let contentsSplit = ContentsSplitView()
+        contentsSplit.isVertical = true
+        contentsSplit.dividerStyle = .thin
+        contentsSplit.frame = scrollFrame
+        contentsSplit.autoresizingMask = [.width, .height]
+        self.contentsSplitView = contentsSplit
+        
+        // Create scroll view for contents outline
+        let contentsScrollView = NSScrollView()
+        contentsScrollView.hasVerticalScroller = true
+        contentsScrollView.hasHorizontalScroller = false
+        contentsScrollView.autohidesScrollers = true
+        contentsScrollView.borderType = .noBorder
+        contentsScrollView.drawsBackground = false
+        contentsScrollView.autoresizingMask = [.width, .height]
+        self.contentsScrollView = contentsScrollView
+        
+        // Create the contents outline view
+        let outlineView = ContentsOutlineView()
+        outlineView.headerView = nil
+        outlineView.allowsMultipleSelection = false
+        outlineView.allowsEmptySelection = true
+        outlineView.indentationPerLevel = 16
+        outlineView.rowHeight = 22
+        outlineView.autoresizesOutlineColumn = true
+        outlineView.viewDelegate = self
+        self.contentsOutlineView = outlineView
+        
+        // Add a single column to the outline view
+        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("ContentsColumn"))
+        column.title = "Contents"
+        column.isEditable = false
+        outlineView.addTableColumn(column)
+        outlineView.outlineTableColumn = column
+        
+        contentsScrollView.documentView = outlineView
+        
+        // Create a container for the contents panel with header
+        let contentsContainer = NSView()
+        contentsContainer.autoresizingMask = [.width, .height]
+        
+        // Create header view for Contents label
+        let headerHeight: CGFloat = 38
+        let headerView = NSView(frame: NSRect(x: 0, y: scrollFrame.height - headerHeight, width: 200, height: headerHeight))
+        headerView.autoresizingMask = [.width, .minYMargin]
+        
+        let headerLabel = NSTextField(labelWithString: NSLocalizedString("Contents", comment: "Contents panel header"))
+        headerLabel.font = NSFont.systemFont(ofSize: 11, weight: .semibold)
+        headerLabel.textColor = NSColor.secondaryLabelColor
+        headerLabel.frame = NSRect(x: 10, y: (headerHeight - 16) / 2, width: 180, height: 16)
+        headerLabel.autoresizingMask = [.maxXMargin]
+        
+        headerView.addSubview(headerLabel)
+        
+        // Position the scroll view below the header
+        contentsScrollView.frame = NSRect(x: 0, y: 0, width: 200, height: scrollFrame.height - headerHeight)
+        
+        contentsContainer.addSubview(headerView)
+        contentsContainer.addSubview(contentsScrollView)
+        
+        // Remove editAreaScroll from its current position
+        // First, deactivate any constraints involving editAreaScroll
+        for constraint in editorView.constraints {
+            if constraint.firstItem === editAreaScroll || constraint.secondItem === editAreaScroll {
+                constraint.isActive = false
+            }
+        }
+        
+        editAreaScroll.removeFromSuperview()
+        
+        // Configure editAreaScroll for use in split view (remove Auto Layout, use autoresizing)
+        editAreaScroll.translatesAutoresizingMaskIntoConstraints = true
+        editAreaScroll.autoresizingMask = [.width, .height]
+        
+        // Add editAreaScroll to the split view (left/first pane)
+        contentsSplit.addSubview(editAreaScroll)
+        
+        // Add contents container to the split view (right/second pane)
+        contentsSplit.addSubview(contentsContainer)
+        
+        // Add the split view to the editor view where editAreaScroll was
+        editorView.addSubview(contentsSplit)
+        
+        // Set up the split view with constraints to match where editAreaScroll was
+        contentsSplit.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            contentsSplit.leadingAnchor.constraint(equalTo: editorView.leadingAnchor),
+            contentsSplit.trailingAnchor.constraint(equalTo: editorView.trailingAnchor),
+            contentsSplit.topAnchor.constraint(equalTo: titleBarView.bottomAnchor),
+            contentsSplit.bottomAnchor.constraint(equalTo: counter.superview!.topAnchor, constant: -2)
+        ])
+        
+        // Set initial frames for split view subviews
+        let contentsWidth: CGFloat = UserDefaultsManagement.contentsPanelHidden ? 0 : UserDefaultsManagement.contentsTableWidth
+        editAreaScroll.frame = NSRect(x: 0, y: 0, width: scrollFrame.width - contentsWidth - 1, height: scrollFrame.height)
+        contentsContainer.frame = NSRect(x: scrollFrame.width - contentsWidth, y: 0, width: contentsWidth, height: scrollFrame.height)
+        
+        // Apply visibility from saved settings
+        if UserDefaultsManagement.contentsPanelHidden {
+            hideContentsPanel()
+        } else {
+            showContentsPanel()
+        }
+    }
+    
+    private func showContentsPanel() {
+        guard let contentsSplit = contentsSplitView else { return }
+        
+        contentsSplit.shouldHideDivider = false
+        let width = UserDefaultsManagement.contentsTableWidth
+        let totalWidth = contentsSplit.frame.width
+        contentsSplit.setPosition(totalWidth - width, ofDividerAt: 0)
+    }
+    
+    private func hideContentsPanel() {
+        guard let contentsSplit = contentsSplitView else { return }
+        
+        // Save current width before hiding
+        if contentsSplit.subviews.count > 1 {
+            let contentsWidth = contentsSplit.subviews[1].frame.width
+            if contentsWidth > 0 {
+                UserDefaultsManagement.contentsTableWidth = contentsWidth
+            }
+        }
+        
+        contentsSplit.shouldHideDivider = true
+        let totalWidth = contentsSplit.frame.width
+        contentsSplit.setPosition(totalWidth, ofDividerAt: 0)
+    }
+    
+    @IBAction func toggleContents(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        
+        if vc.isVisibleContents() {
+            vc.hideContentsPanel()
+            UserDefaultsManagement.contentsPanelHidden = true
+        } else {
+            vc.showContentsPanel()
+            UserDefaultsManagement.contentsPanelHidden = false
+            vc.updateContentsPanel()
+        }
+    }
+    
+    public func isVisibleContents() -> Bool {
+        guard let contentsSplit = contentsSplitView,
+              contentsSplit.subviews.count > 1 else { return false }
+        
+        let contentsWidth = contentsSplit.subviews[1].frame.width
+        return contentsWidth > 10 && !contentsSplit.shouldHideDivider
+    }
+    
+    public func updateContentsPanel() {
+        guard isVisibleContents(),
+              let outlineView = contentsOutlineView,
+              let note = editor.note else {
+            contentsOutlineView?.clear()
+            return
+        }
+        
+        let headings = HeadingParser.parse(content: note.content.string)
+        outlineView.reload(headings: headings)
+    }
+    
+    public func scrollToHeading(_ heading: Heading) {
+        if vcEditor?.isPreviewEnabled() == true {
+            // Scroll web view to heading
+            if let markdownView = editor.markdownView?.webView {
+                let escapedText = heading.text.replacingOccurrences(of: "'", with: "\\'")
+                let js = """
+                    (function() {
+                        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                        for (var i = 0; i < headings.length; i++) {
+                            if (headings[i].textContent.trim() === '\(escapedText)') {
+                                headings[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                return true;
+                            }
+                        }
+                        return false;
+                    })()
+                """
+                markdownView.evaluateJavaScript(js, completionHandler: nil)
+            }
+        } else {
+            // Scroll text view to range
+            editor.scrollRangeToVisible(heading.range)
+            editor.showFindIndicator(for: heading.range)
+        }
     }
 
     private func configureShortcuts() {

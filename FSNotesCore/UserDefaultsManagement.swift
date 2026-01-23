@@ -1278,6 +1278,30 @@ public class UserDefaultsManagement {
         }
     }
 
+    static var contentsPanelHidden: Bool {
+        get {
+            if let result = shared?.object(forKey: "contentsPanelHidden") as? Bool {
+                return result
+            }
+            return true // Hidden by default
+        }
+        set {
+            shared?.set(newValue, forKey: "contentsPanelHidden")
+        }
+    }
+
+    static var contentsTableWidth: CGFloat {
+        get {
+            if let result = shared?.object(forKey: "contentsTableWidth") as? CGFloat {
+                return result
+            }
+            return 200
+        }
+        set {
+            shared?.set(newValue, forKey: "contentsTableWidth")
+        }
+    }
+
     static var crashedLastTime: Bool {
         get {
             if let result = shared?.object(forKey: Constants.CrashedLastTime) as? Bool {

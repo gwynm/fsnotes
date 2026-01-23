@@ -638,6 +638,12 @@ CA
                                                 <action selector="toggleFooter:" target="L4m-js-agn" id="ftr-AC-456"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Hide/Show Contents" image="list.bullet.indent" catalog="system" keyEquivalent="t" identifier="view.toggleContents" id="cnt-TG-789">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="toggleContents:" target="L4m-js-agn" id="cnt-AC-012"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="2A1-iA-fhx"/>
                                         <menuItem title="Back" image="backward" catalog="system" keyEquivalent="[" identifier="viewMenu.historyBack" id="qNE-oZ-zJr">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>

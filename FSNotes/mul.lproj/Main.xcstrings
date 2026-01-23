@@ -9795,6 +9795,18 @@
         }
       }
     },
+    "cnt-TG-789.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Hide/Show Contents\"; ObjectID = \"cnt-TG-789\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Hide/Show Contents"
+          }
+        }
+      }
+    },
     "cq7-SM-dez.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Header 6\"; ObjectID = \"cq7-SM-dez\";",
       "extractionState" : "extracted_with_value",

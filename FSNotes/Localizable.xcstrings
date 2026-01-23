@@ -1521,6 +1521,9 @@
         }
       }
     },
+    "Contents" : {
+      "comment" : "Contents panel header"
+    },
     "Convert to Plain" : {
       "localizations" : {
         "ar-IQ" : {
@@ -5305,6 +5308,9 @@
           }
         }
       }
+    },
+    "Hide Contents" : {
+
     },
     "Hide Footer" : {
 
@@ -11939,6 +11945,12 @@
         }
       }
     },
+    "Show Contents" : {
+
+    },
+    "Show Footer" : {
+
+    },
     "Show in Finder" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -12045,9 +12057,6 @@
           }
         }
       }
-    },
-    "Show Footer" : {
-
     },
     "Show Note List" : {
       "localizations" : {

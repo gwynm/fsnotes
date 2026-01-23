@@ -358,6 +358,9 @@
 		D7315ED2215ED15500AB49D4 /* SidebarSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */; };
 		D7315ED3215ED15500AB49D4 /* SidebarSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */; };
 		D7315ED5215ED95600AB49D4 /* NSAppearance+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */; };
+		DCONT0010000000000000002 /* ContentsSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCONT0010000000000000001 /* ContentsSplitView.swift */; };
+		DCONT0020000000000000002 /* ContentsOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCONT0020000000000000001 /* ContentsOutlineView.swift */; };
+		DHEAD0010000000000000002 /* HeadingParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DHEAD0010000000000000001 /* HeadingParser.swift */; };
 		D7315ED6215ED95600AB49D4 /* NSAppearance+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */; };
 		D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
 		D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BC1F2EF66000173215 /* NoteCellView.swift */; };
@@ -1054,6 +1057,9 @@
 		D7315ECE215ECF3000AB49D4 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSplitView.swift; sourceTree = "<group>"; };
 		D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAppearance+.swift"; sourceTree = "<group>"; };
+		DCONT0010000000000000001 /* ContentsSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsSplitView.swift; sourceTree = "<group>"; };
+		DCONT0020000000000000001 /* ContentsOutlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsOutlineView.swift; sourceTree = "<group>"; };
+		DHEAD0010000000000000001 /* HeadingParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingParser.swift; sourceTree = "<group>"; };
 		D735E5BC1F2EF66000173215 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
 		D735E5BE1F2F001500173215 /* NoteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteRowView.swift; sourceTree = "<group>"; };
 		D73673A720D10CF2000BA61D /* CloudDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDriveManager.swift; sourceTree = "<group>"; };
@@ -1450,6 +1456,7 @@
 				D736DDAC27BAC7940012ED70 /* Note+History.swift */,
 				D71B9D852868BF7F00D2F323 /* TextStorageProcessor.swift */,
 				D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */,
+				DHEAD0010000000000000001 /* HeadingParser.swift */,
 				D777D7802009115C00D86B33 /* ImagesProcessor.swift */,
 				D72682A929BE8E1F00F6E961 /* RepositoryAction.swift */,
 				D7CC44C02A1E5E4F00743857 /* ViewController+WebApi.swift */,
@@ -1884,6 +1891,8 @@
 				D783B504208A1BFD00328A41 /* EditorSplitView.swift */,
 				D7DA9E1D21031901001CF0BE /* OutlineHeaderView.swift */,
 				D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */,
+				DCONT0010000000000000001 /* ContentsSplitView.swift */,
+				DCONT0020000000000000001 /* ContentsOutlineView.swift */,
 				D7315ECE215ECF3000AB49D4 /* EditorView.swift */,
 				D77CC040216A608500582B97 /* EditorScrollView.swift */,
 				D7D1DE67216D05A800AC1845 /* NameTextField.swift */,
@@ -2823,6 +2832,9 @@
 				D7B3FE7121027A6D00764C39 /* UserDataService.swift in Sources */,
 				11F3F4872EDB0E4400435CBF /* DateFormatter+.swift in Sources */,
 				D7315ED2215ED15500AB49D4 /* SidebarSplitView.swift in Sources */,
+				DCONT0010000000000000002 /* ContentsSplitView.swift in Sources */,
+				DCONT0020000000000000002 /* ContentsOutlineView.swift in Sources */,
+				DHEAD0010000000000000002 /* HeadingParser.swift in Sources */,
 				11D6C0E72EE22C11006017F0 /* R.swift in Sources */,
 				11AF633E2E898435004E7157 /* Sql.swift in Sources */,
 				117C0E4D2EEDB9C30086419C /* EditTextView+Clicked.swift in Sources */,

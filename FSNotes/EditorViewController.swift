@@ -202,6 +202,12 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
                     : NSLocalizedString("Show Footer", comment: "")
                     break
                     
+                case "view.toggleContents":
+                    menuItem.title = vc.isVisibleContents()
+                    ? NSLocalizedString("Hide Contents", comment: "")
+                    : NSLocalizedString("Show Contents", comment: "")
+                    break
+                    
                 case "viewMenu.actualSize":
                     return UserDefaultsManagement.fontSize != UserDefaultsManagement.DefaultFontSize
                     
@@ -1401,6 +1407,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
 
             updateLastEditedStatus()
             vc.reSort(note: note)
+            
+            // Update contents panel with debounce
+            vc.updateContentsPanel()
         }
 
         breakUndoTimer.invalidate()
