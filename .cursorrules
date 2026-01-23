@@ -1,0 +1,11 @@
+# FSNotes Project Rules
+
+## Build Verification
+
+After completing code changes, verify the build succeeds by running:
+
+```bash
+xcodebuild -workspace FSNotes.xcworkspace -scheme "FSNotes" build -destination "platform=macOS,arch=arm64" ONLY_ACTIVE_ARCH=YES -quiet
+```
+
+This command must pass before considering a task complete.
