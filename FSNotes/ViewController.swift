@@ -523,41 +523,18 @@ class ViewController: EditorViewController,
         
         contentsScrollView.documentView = outlineView
         
-        // Create a container for the contents panel with header
+        // Create a container for the contents panel (no header needed)
         let contentsContainer = NSView()
         contentsContainer.autoresizingMask = [.width, .height]
-        
-        // Create header view for Contents label (use constraints for reliable positioning)
-        let headerHeight: CGFloat = 38
-        let headerView = NSView()
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let headerLabel = NSTextField(labelWithString: NSLocalizedString("Contents", comment: "Contents panel header"))
-        headerLabel.font = NSFont.systemFont(ofSize: 11, weight: .semibold)
-        headerLabel.textColor = NSColor.secondaryLabelColor
-        headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        headerView.addSubview(headerLabel)
         
         // Use constraints for scroll view positioning
         contentsScrollView.translatesAutoresizingMaskIntoConstraints = false
         
-        contentsContainer.addSubview(headerView)
         contentsContainer.addSubview(contentsScrollView)
         
         NSLayoutConstraint.activate([
-            // Header at top
-            headerView.topAnchor.constraint(equalTo: contentsContainer.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: contentsContainer.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: contentsContainer.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: headerHeight),
-            
-            // Label inside header
-            headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 10),
-            headerLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            
-            // Scroll view below header, filling rest of space
-            contentsScrollView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+            // Scroll view fills entire container
+            contentsScrollView.topAnchor.constraint(equalTo: contentsContainer.topAnchor),
             contentsScrollView.leadingAnchor.constraint(equalTo: contentsContainer.leadingAnchor),
             contentsScrollView.trailingAnchor.constraint(equalTo: contentsContainer.trailingAnchor),
             contentsScrollView.bottomAnchor.constraint(equalTo: contentsContainer.bottomAnchor)

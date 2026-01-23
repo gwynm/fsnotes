@@ -65,11 +65,21 @@ public class HeadingParser {
     
     /// Parse markdown content and return headings in a tree structure
     /// H2s become children of the preceding H1, H3s children of H2, etc.
+    /// If there's exactly one H1, it's skipped (as it's typically the document title)
+    /// and its children are promoted to root level.
     /// - Parameter content: The markdown text to parse
     /// - Returns: Array of top-level Heading objects with nested children
     public static func parse(content: String) -> [Heading] {
         let flatHeadings = parseFlat(content: content)
-        return buildTree(from: flatHeadings)
+        var tree = buildTree(from: flatHeadings)
+        
+        // If there's exactly one H1 at the root, skip it and promote its children
+        // This is because the single H1 is typically the document title
+        if tree.count == 1, let singleRoot = tree.first, singleRoot.level == 1 {
+            tree = singleRoot.children
+        }
+        
+        return tree
     }
     
     /// Build a tree structure from a flat list of headings
