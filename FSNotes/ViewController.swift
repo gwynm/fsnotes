@@ -609,28 +609,35 @@ class ViewController: EditorViewController,
     }
     
     private func showContentsPanel() {
-        guard let contentsSplit = contentsSplitView else { return }
+        guard let contentsSplit = contentsSplitView,
+              contentsSplit.subviews.count > 1 else { return }
         
+        let contentsContainer = contentsSplit.subviews[1]
+        contentsContainer.isHidden = false
         contentsSplit.shouldHideDivider = false
+        
         let width = UserDefaultsManagement.contentsTableWidth
         let totalWidth = contentsSplit.frame.width
         contentsSplit.setPosition(totalWidth - width, ofDividerAt: 0)
+        contentsSplit.adjustSubviews()
     }
     
     private func hideContentsPanel() {
-        guard let contentsSplit = contentsSplitView else { return }
+        guard let contentsSplit = contentsSplitView,
+              contentsSplit.subviews.count > 1 else { return }
+        
+        let contentsContainer = contentsSplit.subviews[1]
         
         // Save current width before hiding
-        if contentsSplit.subviews.count > 1 {
-            let contentsWidth = contentsSplit.subviews[1].frame.width
-            if contentsWidth > 0 {
-                UserDefaultsManagement.contentsTableWidth = contentsWidth
-            }
+        let contentsWidth = contentsContainer.frame.width
+        if contentsWidth > 10 {
+            UserDefaultsManagement.contentsTableWidth = contentsWidth
         }
         
+        // Hide the container and collapse the split
+        contentsContainer.isHidden = true
         contentsSplit.shouldHideDivider = true
-        let totalWidth = contentsSplit.frame.width
-        contentsSplit.setPosition(totalWidth, ofDividerAt: 0)
+        contentsSplit.adjustSubviews()
     }
     
     @IBAction func toggleContents(_ sender: Any) {
@@ -650,8 +657,8 @@ class ViewController: EditorViewController,
         guard let contentsSplit = contentsSplitView,
               contentsSplit.subviews.count > 1 else { return false }
         
-        let contentsWidth = contentsSplit.subviews[1].frame.width
-        return contentsWidth > 10 && !contentsSplit.shouldHideDivider
+        let contentsContainer = contentsSplit.subviews[1]
+        return !contentsContainer.isHidden
     }
     
     public func updateContentsPanel() {
