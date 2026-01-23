@@ -143,6 +143,11 @@ class ViewController: EditorViewController,
     @IBOutlet weak var counter: NSTextField!
     @IBOutlet weak var notesCounter: NSTextField!
     
+    @IBOutlet weak var notesListFooter: NotesCounterView!
+    @IBOutlet weak var editorFooter: NSView!
+    @IBOutlet weak var notesListFooterHeight: NSLayoutConstraint!
+    @IBOutlet weak var editorFooterHeight: NSLayoutConstraint!
+    
     // MARK: - Overrides
     
     override func viewDidLoad() {
@@ -179,6 +184,14 @@ class ViewController: EditorViewController,
         loadMoveMenu()
         loadSortBySetting()
         checkSidebarConstraint()
+        
+        // Apply footer visibility from saved settings
+        if UserDefaultsManagement.footerHidden {
+            notesListFooterHeight.constant = 0
+            editorFooterHeight.constant = 0
+            notesCounter.isHidden = true
+            counter.isHidden = true
+        }
 
     #if CLOUD_RELATED_BLOCK
         registerKeyValueObserver()
@@ -1140,6 +1153,19 @@ class ViewController: EditorViewController,
         vc.editor.updateTextContainerInset()
     }
     
+    @IBAction func toggleFooter(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        
+        let hidden = !UserDefaultsManagement.footerHidden
+        UserDefaultsManagement.footerHidden = hidden
+        
+        let height: CGFloat = hidden ? 0 : 45
+        vc.notesListFooterHeight.constant = height
+        vc.editorFooterHeight.constant = height
+        vc.notesCounter.isHidden = hidden
+        vc.counter.isHidden = hidden
+    }
+    
     @IBAction func emptyTrash(_ sender: NSMenuItem) {
         let notes = storage.getAllTrash()
         for note in notes {
@@ -2062,6 +2088,10 @@ class ViewController: EditorViewController,
         let size = Int(vc.sidebarSplitView.subviews[0].frame.width)
         
         return size != 0
+    }
+    
+    public func isVisibleFooter() -> Bool {
+        return !UserDefaultsManagement.footerHidden
     }
 
     private func cacheGitRepositories() {

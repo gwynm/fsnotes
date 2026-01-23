@@ -15239,6 +15239,18 @@
         }
       }
     },
+    "ftr-TG-123.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Hide/Show Footer\"; ObjectID = \"ftr-TG-123\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Hide/Show Footer"
+          }
+        }
+      }
+    },
     "fzU-ZR-Ubv.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Rename Folder\"; ObjectID = \"fzU-ZR-Ubv\";",
       "extractionState" : "extracted_with_value",

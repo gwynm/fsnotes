@@ -196,6 +196,12 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
                     : NSLocalizedString("Show Sidebar", comment: "")
                     break
                     
+                case "view.toggleFooter":
+                    menuItem.title = vc.isVisibleFooter()
+                    ? NSLocalizedString("Hide Footer", comment: "")
+                    : NSLocalizedString("Show Footer", comment: "")
+                    break
+                    
                 case "viewMenu.actualSize":
                     return UserDefaultsManagement.fontSize != UserDefaultsManagement.DefaultFontSize
                     

@@ -1266,6 +1266,18 @@ public class UserDefaultsManagement {
         }
     }
 
+    static var footerHidden: Bool {
+        get {
+            if let result = shared?.object(forKey: "footerHidden") as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            shared?.set(newValue, forKey: "footerHidden")
+        }
+    }
+
     static var crashedLastTime: Bool {
         get {
             if let result = shared?.object(forKey: Constants.CrashedLastTime) as? Bool {

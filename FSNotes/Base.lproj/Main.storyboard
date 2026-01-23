@@ -632,6 +632,12 @@ CA
                                                 <action selector="toggleSidebar:" target="L4m-js-agn" id="MRM-fh-zTo"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Hide/Show Footer" image="rectangle.bottomhalf.filled" catalog="system" keyEquivalent="F" identifier="view.toggleFooter" id="ftr-TG-123">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="toggleFooter:" target="L4m-js-agn" id="ftr-AC-456"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="2A1-iA-fhx"/>
                                         <menuItem title="Back" image="backward" catalog="system" keyEquivalent="[" identifier="viewMenu.historyBack" id="qNE-oZ-zJr">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
@@ -2083,6 +2089,10 @@ CA
                         <outlet property="nonSelectedLabel" destination="FvZ-Tf-26e" id="fa6-EA-riA"/>
                         <outlet property="noteMenu" destination="AaK-Xd-i52" id="t41-7H-k7N"/>
                         <outlet property="notesCounter" destination="xOb-jd-sez" id="57q-6u-ogh"/>
+                        <outlet property="notesListFooter" destination="nVd-Zp-Vjx" id="ftr-OL-789"/>
+                        <outlet property="notesListFooterHeight" destination="eLj-20-oK1" id="ftr-HC-001"/>
+                        <outlet property="editorFooter" destination="CPU-ij-IKt" id="ftr-OL-012"/>
+                        <outlet property="editorFooterHeight" destination="9A6-2x-DoV" id="ftr-HC-002"/>
                         <outlet property="notesListCustomView" destination="8ej-mX-KM6" id="yDe-gf-AHy"/>
                         <outlet property="notesScrollView" destination="Kzf-Jh-YEb" id="u8R-Hy-KjV"/>
                         <outlet property="notesTableView" destination="8X8-yh-5EA" id="pGL-Nn-LM0"/>

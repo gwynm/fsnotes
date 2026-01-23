@@ -5306,6 +5306,9 @@
         }
       }
     },
+    "Hide Footer" : {
+
+    },
     "Hide Note List" : {
       "localizations" : {
         "ar-IQ" : {
@@ -12042,6 +12045,9 @@
           }
         }
       }
+    },
+    "Show Footer" : {
+
     },
     "Show Note List" : {
       "localizations" : {
