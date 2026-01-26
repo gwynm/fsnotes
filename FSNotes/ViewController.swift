@@ -12,6 +12,7 @@ import Foundation
 import Shout
 import UserNotifications
 import WebKit
+import Git
 
 class ViewController: EditorViewController,
     NSSplitViewDelegate,
@@ -151,6 +152,9 @@ class ViewController: EditorViewController,
     public var contentsOutlineView: ContentsOutlineView?
     public var contentsScrollView: NSScrollView?
     
+    // MARK: - Git Status Indicator
+    public var gitStatusIndicator: GitStatusIndicator?
+    
     // MARK: - Overrides
     
     override func viewDidLoad() {
@@ -170,6 +174,8 @@ class ViewController: EditorViewController,
             newNoteButton.image = NSImage(imageLiteralResourceName: "new_note_button").resize(to: CGSize(width: 20, height: 20))
         }
 
+        setupGitStatusIndicator()
+        
         configureShortcuts()
         configureDelegates()
         configureLayout()
@@ -2300,5 +2306,103 @@ class ViewController: EditorViewController,
         _ = Storage.shared().getProjects().filter({ $0.hasRepository() }).map({
             $0.cacheHistory()
         })
+    }
+    
+    // MARK: - Git Status Indicator
+    
+    private func setupGitStatusIndicator() {
+        let indicator = GitStatusIndicator(frame: NSRect(x: 0, y: 0, width: 20, height: 20))
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Add to the same parent as newNoteButton
+        guard let parentView = newNoteButton.superview else { return }
+        parentView.addSubview(indicator)
+        
+        // Position: [search] -- 6 -- [newNoteButton] -- 6 -- [gitIndicator]
+        // Find and deactivate the constraint that ties newNoteButton trailing to parent
+        for constraint in parentView.constraints {
+            // Find the constraint: parent.trailing = newNoteButton.trailing + 7
+            if constraint.firstAttribute == .trailing,
+               constraint.secondItem as? NSButton == newNoteButton,
+               constraint.secondAttribute == .trailing {
+                constraint.isActive = false
+                break
+            }
+        }
+        
+        // Set up: [newNoteButton] -- 6 -- [gitIndicator] -- 7 -- |trailing|
+        NSLayoutConstraint.activate([
+            indicator.leadingAnchor.constraint(equalTo: newNoteButton.trailingAnchor, constant: 6),
+            indicator.centerYAnchor.constraint(equalTo: newNoteButton.centerYAnchor),
+            indicator.widthAnchor.constraint(equalToConstant: 20),
+            indicator.heightAnchor.constraint(equalToConstant: 20),
+            parentView.trailingAnchor.constraint(equalTo: indicator.trailingAnchor, constant: 7)
+        ])
+        
+        gitStatusIndicator = indicator
+        
+        // Add click gesture for manual sync
+        let clickGesture = NSClickGestureRecognizer(target: self, action: #selector(gitIndicatorClicked))
+        indicator.addGestureRecognizer(clickGesture)
+        
+        // Listen for status changes
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(gitStatusDidChange),
+            name: .gitStatusChanged,
+            object: nil
+        )
+    }
+    
+    @objc private func gitStatusDidChange() {
+        gitStatusIndicator?.updateState()
+    }
+    
+    @objc private func gitIndicatorClicked() {
+        // Trigger a git sync for the main project using the same code path as Pull/push button
+        guard let defaultProject = Storage.shared().getDefault(),
+              let gitProject = defaultProject.getGitProject(),
+              gitProject.getGitOrigin() != nil else {
+            return
+        }
+        
+        GitStatusIndicator.recordOperationStarted()
+        
+        ViewController.gitQueue.addOperation {
+            defer {
+                ViewController.gitQueueOperationDate = nil
+                ViewController.gitQueueBusy = false
+            }
+            
+            ViewController.gitQueueOperationDate = Date()
+            ViewController.gitQueueBusy = true
+            
+            // Use saveRevision which does: commit -> pull -> push
+            do {
+                try gitProject.saveRevision(commitMessage: nil)
+                _ = try gitProject.checkGitState()
+                GitStatusIndicator.recordPullSuccess()
+            } catch GitError.noAddedFiles {
+                // No changes to commit - still try pull/push
+                do {
+                    try gitProject.pull()
+                    try gitProject.push()
+                    _ = try gitProject.checkGitState()
+                    GitStatusIndicator.recordPullSuccess()
+                } catch {
+                    if let gitError = error as? GitError {
+                        GitStatusIndicator.recordError(gitError.associatedValue())
+                    } else {
+                        GitStatusIndicator.recordError(error.localizedDescription)
+                    }
+                }
+            } catch {
+                if let gitError = error as? GitError {
+                    GitStatusIndicator.recordError(gitError.associatedValue())
+                } else {
+                    GitStatusIndicator.recordError(error.localizedDescription)
+                }
+            }
+        }
     }
 }

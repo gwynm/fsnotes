@@ -56,6 +56,13 @@ extension EditorViewController {
     
     private func saveRevision(project: Project, commitMessage: String? = nil) {
         guard let window = self.view.window else { return }
+        
+        // Check if this is the main project
+        let isMainProject = (project == Storage.shared().getDefault()?.getGitProject())
+        
+        if isMainProject {
+            GitStatusIndicator.recordOperationStarted()
+        }
 
         ViewController.gitQueue.addOperation({
             ViewController.gitQueueOperationDate = Date()
@@ -66,14 +73,27 @@ extension EditorViewController {
 
             do {
                 try project.saveRevision(commitMessage: commitMessage)
+                
+                // Update status for main project
+                if isMainProject {
+                    _ = try project.checkGitState()
+                    GitStatusIndicator.recordPullSuccess()
+                }
             } catch GitError.noAddedFiles {
-                // pass
+                // pass - not an error, just nothing to commit
+                if isMainProject {
+                    GitStatusIndicator.recordOperationEnded()
+                }
             } catch {
                 var message = String()
                 if let error = error as? GitError {
                     message = error.associatedValue()
                 } else {
                     message = error.localizedDescription
+                }
+                
+                if isMainProject {
+                    GitStatusIndicator.recordError(message)
                 }
 
                 DispatchQueue.main.async {
@@ -132,6 +152,8 @@ extension EditorViewController {
         guard UserDefaultsManagement.snapshotsIntervalMinutes == minute else { return }
         
         lastSnapshot = minute
+        
+        GitStatusIndicator.recordOperationStarted()
 
         ViewController.gitQueue.addOperation({
             ViewController.gitQueueOperationDate = Date()
@@ -141,7 +163,15 @@ extension EditorViewController {
             }
 
             let storage = Storage.shared()
-            guard let projects = storage.getGitProjects() else { return }
+            guard let projects = storage.getGitProjects() else {
+                GitStatusIndicator.recordOperationEnded()
+                return
+            }
+            
+            // Track whether main project succeeded
+            let defaultProject = storage.getDefault()
+            var mainProjectSucceeded = false
+            var mainProjectError: String?
 
             for project in projects {
                 do {
@@ -149,10 +179,33 @@ extension EditorViewController {
                         try project.commit()
                         try project.pull()
                         try project.push()
+                        
+                        // Track main project status
+                        if project == defaultProject?.getGitProject() {
+                            _ = try project.checkGitState()
+                            mainProjectSucceeded = true
+                        }
                     }
                 } catch {
                     print(error)
+                    // Track main project errors
+                    if project == defaultProject?.getGitProject() {
+                        if let gitError = error as? GitError {
+                            mainProjectError = gitError.associatedValue()
+                        } else {
+                            mainProjectError = error.localizedDescription
+                        }
+                    }
                 }
+            }
+            
+            // Update status indicator for main project
+            if let error = mainProjectError {
+                GitStatusIndicator.recordError(error)
+            } else if mainProjectSucceeded {
+                GitStatusIndicator.recordPullSuccess()
+            } else {
+                GitStatusIndicator.recordOperationEnded()
             }
         })
     }
@@ -176,6 +229,8 @@ extension EditorViewController {
             }
         }
 
+        GitStatusIndicator.recordOperationStarted()
+        
         ViewController.gitQueue.addOperation({
             ViewController.gitQueueOperationDate = Date()
 
@@ -183,6 +238,24 @@ extension EditorViewController {
                 ViewController.gitQueueOperationDate = nil
             }
 
+            // Pull for main project and track status
+            if let defaultProject = Storage.shared().getDefault(),
+               let gitProject = defaultProject.getGitProject(),
+               gitProject.getGitOrigin() != nil {
+                do {
+                    try gitProject.pull()
+                    _ = try gitProject.checkGitState()
+                    GitStatusIndicator.recordPullSuccess()
+                } catch {
+                    if let gitError = error as? GitError {
+                        GitStatusIndicator.recordError(gitError.associatedValue())
+                    } else {
+                        GitStatusIndicator.recordError(error.localizedDescription)
+                    }
+                }
+            }
+            
+            // Also pull other projects (but don't track their status)
             Storage.shared().pullAll()
         })
     }

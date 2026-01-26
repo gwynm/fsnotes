@@ -245,6 +245,43 @@ Example: With "every 1 hours" at minute "5" and pull interval "10":
 
 ---
 
+## Building from Source
+
+### Prerequisites
+
+- macOS 12.4 or later
+- Xcode (with command line tools)
+
+### Build Command
+
+```bash
+xcodebuild -workspace FSNotes.xcworkspace -scheme "FSNotes" build -destination "platform=macOS,arch=arm64" ONLY_ACTIVE_ARCH=YES
+```
+
+Add `-quiet` to suppress verbose output.
+
+### Build Output
+
+The built application is located at:
+
+```
+~/Library/Developer/Xcode/DerivedData/FSNotes-<hash>/Build/Products/Debug/FSNotes.app
+```
+
+To find the exact path:
+
+```bash
+xcodebuild -workspace FSNotes.xcworkspace -scheme "FSNotes" -showBuildSettings | grep "BUILT_PRODUCTS_DIR"
+```
+
+To open the build folder in Finder:
+
+```bash
+open "$(xcodebuild -workspace FSNotes.xcworkspace -scheme 'FSNotes' -showBuildSettings 2>/dev/null | grep ' BUILT_PRODUCTS_DIR' | head -1 | sed 's/.*= //')"
+```
+
+---
+
 ## License
 
 FSNotes is written in **Swift 5** and is open source (MIT license).
