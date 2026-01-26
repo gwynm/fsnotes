@@ -57,6 +57,194 @@ FSNotes is modern notes manager for macOS and iOS.
 - **Git** integration.
 - **Web Pages** Creation.
 
+---
+
+## Data Model
+
+FSNotes organizes your notes using three core concepts: **Storage**, **Projects**, and **Notes**.
+
+### Storage
+
+FSNotes has a single **Default Storage** location configured in Preferences → General. This is the root directory where FSNotes looks for your notes. It can be:
+
+- **iCloud Drive** (default) — syncs across devices
+- **Local Documents** folder
+- **Custom path** — any folder you choose
+
+All projects and notes live within or alongside this storage location.
+
+### Projects
+
+A **Project** is FSNotes' representation of a folder. There are four types:
+
+**Default Project (Inbox)**
+- The root folder at your Default Storage location
+- Always exists and cannot be removed
+- Contains your main notes and any nested subfolders
+- Shown as "Inbox" in the sidebar
+
+**Nested Projects**
+- Subfolders within the Default Project or within other nested projects
+- Automatically discovered when you create folders on disk
+- Appear indented under their parent in the sidebar
+- Inherit settings from their parent unless explicitly overridden
+
+**Bookmark Projects**
+- External folders added via File → Add External Folder
+- Can be located anywhere on your filesystem, outside Default Storage
+- Useful for accessing existing folder structures or separating work/personal notes
+- **Visual note**: In the sidebar, Bookmark Projects look identical to nested projects (subfolders of Inbox) — both just show the folder name. To distinguish them, right-click → Show Options: only Bookmark Projects (and Inbox) show the Git configuration section.
+
+**Virtual Projects**
+- Not real folders — they're filtered views across all your notes
+- **Notes** (a.k.a. "All Notes"): Shows every note from every project combined
+- **Todo**: Shows notes containing checkbox/todo items  
+- **Untagged**: Shows notes without any tags
+- Note: Right-click → Show Options on a virtual project shows Git settings, but these are **redirected to the Default Project (Inbox)**. Configuring Git on "Notes" actually configures Inbox.
+
+**Trash**
+- The `.Trash` folder within Default Storage
+- A real folder, but with special handling (deleted notes go here)
+
+### Notes
+
+Each note is a file on disk (`.md`, `.txt`, `.textbundle`, etc.). Notes:
+
+- Belong to exactly one Project (the folder containing them)
+- Inherit their Project's settings (sorting, Git configuration, etc.)
+- Can be organized with tags extracted from content (`#tag`)
+
+### Sidebar Structure
+
+The sidebar displays items in this order:
+
+1. **System items** (visibility configurable):
+   - **Notes**: Virtual — shows all notes from all projects
+   - **Inbox**: The Default Project (your root storage folder)
+   - **Todo**: Virtual — shows notes with checkboxes
+   - **Untagged**: Virtual — shows notes without tags
+   - **Trash**: The `.Trash` folder
+2. **Projects**: Subfolders of Inbox + any Bookmark Projects you've added
+3. **Tags**: Hierarchical tags extracted from note content (if enabled)
+
+### Project Hierarchy and Inheritance
+
+Projects form a tree structure. The Default Project is the root, with nested folders as children. Bookmark Projects are independent roots. Settings flow down the hierarchy — a note in `Projects/Work/2024/` inherits configuration from the nearest ancestor that has it set.
+
+---
+
+## Git Integration
+
+FSNotes provides optional Git versioning for your notes, allowing you to track changes, sync with remote repositories, and restore previous versions.
+
+### Per-Project Repositories
+
+Git is configured at the **project level**, not globally. This means:
+
+- Each root-level project (Default Project or Bookmark Project) can have its own independent Git repository
+- Nested projects inherit Git from their parent — they don't get separate repositories
+- A note belongs to whichever Git repository its containing project (or nearest ancestor with Git configured) uses
+
+This allows you to have a single repository for all notes, or multiple repositories for different purposes.
+
+### Configuration
+
+There are two places to configure Git:
+
+**Preferences → Git** (global settings + Default Project):
+
+*Global settings (affect all projects):*
+- **Git Storage path**: Where `.git` directories are stored when using centralized mode
+- **Separate .git in project dir**: Toggle between centralized and in-folder repository storage
+- **Backup mode**: Manual or automatic commit/push at configured intervals
+- **Pull interval**: How often to automatically pull (when automatic backup is enabled)
+- **Ask commit message**: Whether to prompt for a message on each commit
+
+*Default Project settings (the section at the bottom):*
+- **Origin**: The remote repository URL for the Default Project (Inbox)
+- **Private Key / Passphrase**: SSH credentials for the Default Project
+- **Clone/Pull/Push button**: Trigger Git operations for the Default Project
+
+**Right-click project → Show Options → Git section** (per-project):
+- **Origin**: The remote repository URL for this specific project
+- **Private Key / Passphrase**: SSH credentials for this project
+- **Clone/Pull/Push button**: Trigger Git operations for this project
+- Only shown for root-level projects (Inbox, Bookmark Projects) — not for nested subfolders or Trash
+
+**Important equivalences:**
+- The "Origin" field in Preferences → Git and in Inbox's Show Options are the **same setting**
+- Right-clicking "Notes" (virtual) → Show Options shows Git settings, but these **actually configure Inbox** (the Default Project). The UI silently redirects virtual projects to Inbox for Git configuration.
+
+### Repository Storage: Default Storage vs Git Storage
+
+These two paths serve completely different purposes:
+
+- **Default Storage** (Preferences → General): Where your note files live on disk
+- **Git Storage** (Preferences → Git): Where `.git` directories are stored when using centralized mode
+
+They are independent. For example, your notes might be in `~/Documents/Notes/` while Git repositories are stored in `~/Library/Application Support/FSNotes/Repositories/`.
+
+### The "Separate .git in project dir" Option
+
+This setting controls where FSNotes **looks for** the `.git` directory:
+
+**When DISABLED (default — centralized storage):**
+- The `.git` repository data is stored in the "Git Storage" folder
+- Repository names use the format `[hash] - [project name].git` (e.g., `a1b2 - Work.git`)
+- The repository's `core.worktree` config points to your notes folder in Default Storage
+- Your notes folder contains only working files (no `.git` subfolder)
+- Advantage: Keeps `.git` directories out of synced folders; project directories stay clean
+
+Technical detail: When cloning, FSNotes clones to a temp folder, configures `core.worktree` to point to your notes location, moves only the `.git` contents to Git Storage, then deletes the temp clone. Checkout then populates your notes folder via the worktree config.
+
+**When ENABLED (traditional layout):**
+- FSNotes looks for `.git` inside each project folder (standard Git layout)
+- The "Git Storage" path is not used for locating repositories
+
+**Exception — iCloud Drive**: Projects stored in iCloud Drive **always** use centralized storage, regardless of this setting. iCloud syncs `.git` directories, which causes conflicts when multiple devices push changes. FSNotes forces centralized storage for iCloud projects to prevent corruption.
+
+**Important**: Toggling this setting does **not** migrate existing repositories. If you switch from centralized to separate (or vice versa), any existing `.git` directories in the old location become orphaned — FSNotes simply stops looking there. You would need to manually move or delete the old repositories.
+
+### Git Operations
+
+**Manual operations:**
+- **Menu bar**: File → Commit & Push (or ⌘S) — operates on the **currently selected project only**
+- **Project settings**: The Clone/Pull/Push button — operates on that specific project
+
+**Automatic operations** (when "Commit/Push every" is selected in Preferences → Git):
+
+The timers are **global** — all Git-enabled projects share the same schedule. You cannot configure different intervals per project.
+
+- **Snapshot timer**: Checks every 5 seconds, but only acts at the configured hour interval (e.g., every 1 hour) at the specified minute. When triggered, it iterates through **all projects with Git origin configured** and performs: commit → pull → push on each.
+- **Pull timer**: Runs every `pullInterval` seconds (minimum 10). Pulls from **all Git-enabled projects** — no commit or push, just pull.
+
+Example: With "every 1 hours" at minute "5" and pull interval "10":
+- At 1:05, 2:05, 3:05...: all Git projects get commit → pull → push
+- Every 10 seconds: all Git projects get pull only
+
+**Note history:**
+- Right-click a note → History to see previous commits affecting that note
+- Select a commit to restore that version
+- Only available for notes in projects that have been committed
+
+### Typical Workflows
+
+**Single repository for all notes:**
+1. Configure Git origin on your Default Project (Inbox)
+2. All nested folders and their notes are tracked in this single repository
+
+**Multiple independent repositories:**
+1. Add external folders as Bookmark Projects
+2. Configure Git origin separately on each Bookmark Project
+3. Each becomes an independent repository with its own remote
+
+**Work + Personal separation:**
+1. Keep personal notes in Default Storage with one Git remote
+2. Add work folder as a Bookmark Project with a different Git remote
+3. Each syncs independently to different repositories
+
+---
+
 ## License
 
 FSNotes is written in **Swift 5** and is open source (MIT license).
