@@ -383,10 +383,23 @@ open ~/Library/Developer/Xcode/DerivedData/FSNotes-*/Build/Products/Debug/FSNote
 
 **Fixing layout issues**:
 1. Open storyboard in Xcode
-2. Select the problematic view
-3. Use Size Inspector (right panel) to adjust frame
-4. Use "Update Frames" (Editor → Update Frames) to apply constraint changes
-5. Resolve constraint warnings in the Issue Navigator
+2. Drag elements to desired positions visually
+3. Select affected views (or the container)
+4. **Editor → Resolve Auto Layout Issues → Update Constraint Constants** — makes constraints match your visual layout
+5. If constraints are too tangled: **Clear Constraints**, reposition, then **Add Missing Constraints**
+
+**Important**: Xcode maintains two positioning systems simultaneously:
+- **Frame**: The visual position in the canvas (what you see when dragging)
+- **Constraints**: Auto Layout rules that determine position at runtime
+
+At runtime, **constraints win**. If you drag elements without updating constraints, you'll see `misplaced="YES"` warnings in the XML, and the app will render using the old constraint positions.
+
+| Menu Option | Effect |
+|-------------|--------|
+| **Update Constraint Constants** | Adjusts constraints to match where you dragged elements |
+| **Update Frames** | Moves elements to where constraints say they should be (undoes your dragging) |
+| **Clear Constraints** | Removes all constraints from selected views |
+| **Add Missing Constraints** | Xcode guesses constraints based on current positions |
 
 ---
 
