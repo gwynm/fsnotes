@@ -16,7 +16,7 @@ enum GitSyncState {
     case uncommitted      // Orange: has uncommitted changes
     case error            // Red: last operation failed or pull > 1 hour old
     case inProgress       // Blue: operation currently running
-    case notConfigured    // Hidden: git not set up
+    case notConfigured    // Grey: git not set up
     
     var color: NSColor {
         switch self {
@@ -25,7 +25,7 @@ enum GitSyncState {
         case .uncommitted:  return .systemOrange
         case .error:        return .systemRed
         case .inProgress:   return .systemBlue
-        case .notConfigured: return .clear
+        case .notConfigured: return .systemGray
         }
     }
     
@@ -113,12 +113,7 @@ class GitStatusIndicator: NSView {
     func updateState() {
         let state = calculateState()
         
-        // Hide if not configured
-        if state == .notConfigured {
-            isHidden = true
-            return
-        }
-        
+        // Always visible
         isHidden = false
         
         // Apply tint color

@@ -102,7 +102,7 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
                 self.gitProject?.settings.gitPrivateKey = try? Data(contentsOf: openPanel.urls[0])
                 self.gitProject?.saveSettings()
 
-                self.keyStatus.stringValue = "✅"
+                self.keyStatus.stringValue = "Configured ✅"
             }
         }
     }
@@ -165,7 +165,7 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
 
         origin.stringValue = project.settings.gitOrigin ?? ""
         passphrase.stringValue = project.settings.gitPrivateKeyPassphrase ?? ""
-        keyStatus.stringValue = project.settings.gitPrivateKey != nil ? "✅" : ""
+        keyStatus.stringValue = project.settings.gitPrivateKey != nil ? "Configured ✅" : ""
 
         updateButtons()
         progress = GitProgress(statusTextField: logTextField, project: project)
