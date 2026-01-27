@@ -142,6 +142,15 @@ class GitStatusIndicator: NSView {
             return .error
         }
         
+        // Refresh git state to detect uncommitted changes
+        let isClean: Bool
+        do {
+            isClean = try gitProject.checkGitState()
+        } catch {
+            // If we can't check state, assume clean to avoid false positives
+            isClean = true
+        }
+        
         // Check last pull time
         if let lastPull = GitStatusIndicator.lastPullTime {
             let elapsed = Date().timeIntervalSince(lastPull)
@@ -152,7 +161,7 @@ class GitStatusIndicator: NSView {
             }
             
             // Check for uncommitted changes
-            if !gitProject.isCleanGit {
+            if !isClean {
                 return .uncommitted
             }
             
@@ -166,7 +175,7 @@ class GitStatusIndicator: NSView {
         }
         
         // No pull yet - check for uncommitted changes
-        if !gitProject.isCleanGit {
+        if !isClean {
             return .uncommitted
         }
         
