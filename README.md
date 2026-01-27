@@ -296,6 +296,100 @@ For accessing external folders (Bookmark Projects), FSNotes stores security-scop
 
 ---
 
+## UI Development (macOS)
+
+### Framework and Paradigm
+
+FSNotes uses **AppKit** with **Storyboards** for the macOS UI:
+
+- **UI Framework**: AppKit (Cocoa) — `NSViewController`, `NSView`, `NSButton`, `NSTextField`, etc.
+- **Layout System**: Auto Layout with constraints
+- **UI Definition**: Single storyboard file containing all scenes
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `FSNotes/Base.lproj/Main.storyboard` | All macOS UI — main window, preferences tabs, dialogs (~5000 lines of XML) |
+| `FSNotes/Preferences/*.swift` | View controllers for each preferences tab |
+| `FSNotes/ViewController.swift` | Main window controller |
+| `FSNotes/View/*.swift` | Custom view subclasses |
+
+### Storyboard Structure
+
+The storyboard contains multiple **scenes**, each representing a view controller:
+
+- **Application scene**: Menu bar and app-level connections
+- **Main window scene**: The primary notes interface (sidebar, note list, editor)
+- **Preferences scenes**: One per tab (General, Git, Editor, etc.)
+- **Dialog scenes**: About window, password dialogs, etc.
+
+Each scene has:
+- A **view controller** (linked to a Swift class via `customClass`)
+- **IBOutlets**: Connections from UI elements to Swift properties
+- **IBActions**: Connections from UI events to Swift methods
+- **Constraints**: Auto Layout rules defining element positions
+
+### Development Workflow
+
+**Xcode Visual Editor (Recommended)**:
+1. Open `FSNotes.xcworkspace` in Xcode
+2. Select `Main.storyboard` in the navigator
+3. Use Interface Builder to visually edit layouts
+4. Drag connections between UI and code (outlets/actions)
+5. Preview changes in the canvas
+
+**Manual XML Editing** (for targeted fixes):
+- Storyboard files are XML — editable in any text editor
+- Each element has a unique `id` attribute (e.g., `id="FjG-Kz-Df1"`)
+- Position/size set via `<rect key="frame" x="..." y="..." width="..." height="..."/>`
+- Constraints defined in `<constraints>` blocks
+- **Caution**: Easy to break — Xcode validates and auto-formats on save
+
+**Which to use**:
+- **Visual editor**: Layout changes, adding elements, connecting outlets
+- **Text editor**: Bulk find/replace, understanding structure, precise coordinate tweaks
+
+### Rapid Iteration
+
+Unfortunately, **full rebuild is required** to see UI changes — there's no hot reload for AppKit storyboards.
+
+**Fastest iteration cycle**:
+```bash
+# Quick build (arm64 only, active arch, no cleaning)
+xcodebuild -workspace FSNotes.xcworkspace -scheme "FSNotes" build \
+  -destination "platform=macOS,arch=arm64" ONLY_ACTIVE_ARCH=YES -quiet
+
+# Run the built app
+open ~/Library/Developer/Xcode/DerivedData/FSNotes-*/Build/Products/Debug/FSNotes.app
+```
+
+**Tips**:
+- Keep Xcode open — subsequent builds are incremental and faster
+- Use `⌘B` in Xcode to build, `⌘R` to build and run
+- For storyboard-only changes, build is typically 5-15 seconds
+
+### Common Tasks
+
+**Adding an outlet**:
+1. In storyboard, select the UI element
+2. Open Assistant Editor (View → Assistant → Show Assistant Editor)
+3. Ctrl-drag from element to Swift file to create `@IBOutlet`
+
+**Adding an action**:
+1. Ctrl-drag from control (button, etc.) to Swift file
+2. Select "Action" in the popup
+3. Creates `@IBAction func methodName(_ sender: ...)`
+
+**Fixing layout issues**:
+1. Open storyboard in Xcode
+2. Select the problematic view
+3. Use Size Inspector (right panel) to adjust frame
+4. Use "Update Frames" (Editor → Update Frames) to apply constraint changes
+5. Resolve constraint warnings in the Issue Navigator
+
+---
+
 ## Building from Source
 
 ### Prerequisites
