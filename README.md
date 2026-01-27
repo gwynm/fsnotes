@@ -245,6 +245,57 @@ Example: With "every 1 hours" at minute "5" and pull interval "10":
 
 ---
 
+## Settings Storage
+
+FSNotes stores settings in several locations depending on the type of data:
+
+### Application Preferences
+
+**macOS**: Standard UserDefaults plist file:
+```
+~/Library/Preferences/co.fluder.FSNotes.plist
+```
+
+This file stores all application-wide settings including:
+- UI preferences (font, theme, sidebar visibility)
+- Default storage path
+- Git global settings (repository storage path, backup intervals, SSH credentials for the main project)
+- Editor settings (line spacing, syntax highlighting options)
+
+**iOS**: App group UserDefaults (shared with extensions):
+```
+group.es.fsnot.user.defaults
+```
+
+### iCloud-Synced Settings
+
+Some settings sync across devices via `NSUbiquitousKeyValueStore`:
+- Sort order preferences
+- Upload key (for web publishing)
+
+### Per-Project Settings
+
+Each project stores its own settings (sort order, Git origin, SSH keys, etc.) separately:
+
+**Format**: Binary plist (NSKeyedArchiver)
+
+**Location** (varies by build):
+- **App Store builds**: iCloud key-value storage (`NSUbiquitousKeyValueStore`)
+- **Other builds**: `~/Library/Application Support/es.fsnot.project-settings<hash>`
+
+The `<hash>` is an MD5 of the project path, making the filename unique per project.
+
+**Contents** (per `ProjectSettings.swift`):
+- Sort preferences (field, direction)
+- Display options (show in sidebar, show nested content)
+- Git configuration (origin URL, private key data, passphrase)
+
+### Sandbox Bookmarks
+
+For accessing external folders (Bookmark Projects), FSNotes stores security-scoped bookmarks to maintain access across launches. These are stored in UserDefaults.
+
+---
+
 ## Building from Source
 
 ### Prerequisites
