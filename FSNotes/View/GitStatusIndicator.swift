@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Git
 
 /// Represents the current Git sync status for the main project
 enum GitSyncState {
@@ -91,6 +92,9 @@ class GitStatusIndicator: NSView {
             image.isTemplate = true
             imageView.image = image
         }
+        
+        // Initialize last sync time from repository's last commit
+        GitStatusIndicator.initializeLastSyncFromRepo()
         
         // Start update timer (every 10 seconds to keep tooltip fresh)
         updateTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] _ in
@@ -203,6 +207,22 @@ class GitStatusIndicator: NSView {
     }
     
     // MARK: - Static helpers for updating state from Git operations
+    
+    static func initializeLastSyncFromRepo() {
+        // Only initialize if we haven't already recorded a sync this session
+        guard lastPullTime == nil else { return }
+        
+        // Get the last commit date from the main project's repository
+        guard let defaultProject = Storage.shared().getDefault(),
+              let gitProject = defaultProject.getGitProject(),
+              gitProject.getGitOrigin() != nil,
+              let repository = try? gitProject.getRepository(),
+              let lastCommit = try? repository.head().targetCommit() else {
+            return
+        }
+        
+        lastPullTime = lastCommit.date
+    }
     
     static func recordPullSuccess() {
         lastPullTime = Date()
