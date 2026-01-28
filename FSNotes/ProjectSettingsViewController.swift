@@ -23,6 +23,7 @@ class ProjectSettingsViewController: SettingsViewController {
     @IBOutlet weak var gitView: NSView!
     @IBOutlet weak var gitViewHeight: NSLayoutConstraint!
     @IBOutlet weak var mainProjectMessage: NSTextField!
+    @IBOutlet weak var gitRepositoryTitle: NSTextField!
     
     override func viewDidLoad() {
         gitView.isHidden = true
@@ -155,6 +156,7 @@ class ProjectSettingsViewController: SettingsViewController {
                 gitViewHeight.constant = 150
                 hideGitControls(false)
                 mainProjectMessage?.isHidden = true
+                gitRepositoryTitle?.stringValue = "Git repository for \(project.label)"
                 loadGit(project: project)
             }
         } else {
