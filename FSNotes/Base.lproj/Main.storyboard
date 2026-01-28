@@ -3004,8 +3004,8 @@ Olena Hlushcneko</string>
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="pnl-hdg-001" firstAttribute="leading" secondItem="MgV-BT-LsD" secondAttribute="leading" constant="20" id="pnl-hdg-c01"/>
-                            <constraint firstItem="pnl-hdg-001" firstAttribute="top" secondItem="MgV-BT-LsD" secondAttribute="top" constant="8" id="pnl-hdg-c02"/>
+                            <constraint firstItem="pnl-hdg-001" firstAttribute="leading" secondItem="MgV-BT-LsD" secondAttribute="leading" constant="35" id="pnl-hdg-c01"/>
+                            <constraint firstItem="pnl-hdg-001" firstAttribute="top" secondItem="MgV-BT-LsD" secondAttribute="top" constant="35" id="pnl-hdg-c02"/>
                             <constraint firstAttribute="trailing" secondItem="pnl-hdg-001" secondAttribute="trailing" constant="20" id="pnl-hdg-c03"/>
                             <constraint firstItem="eOj-jC-ndy" firstAttribute="leading" secondItem="MgV-BT-LsD" secondAttribute="leading" constant="35" id="0h7-jj-nf1"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DQw-2B-ocF" secondAttribute="trailing" constant="20" symbolic="YES" id="2Cq-gV-DJM"/>
