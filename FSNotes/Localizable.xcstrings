@@ -3685,6 +3685,9 @@
         }
       }
     },
+    "Don't select this if any of your Projects are stored in iCloud. iCloud's sync causes corruption when used on folders containing .git folders. Instead, select 'Central location' and ensure that location is not in iCloud." : {
+
+    },
     "Done" : {
       "localizations" : {
         "es" : {
@@ -5739,6 +5742,9 @@
           }
         }
       }
+    },
+    "iCloud Warning" : {
+
     },
     "Import" : {
       "comment" : "File Menu",

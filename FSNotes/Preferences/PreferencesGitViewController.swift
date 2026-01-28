@@ -43,6 +43,7 @@ class PreferencesGitViewController: SettingsViewController {
 
     override func viewWillAppear() {
         super.viewWillAppear()
+        preferredContentSize = NSSize(width: 550, height: 680)
 
         loadGit(project: Storage.shared().getDefault()!)
 
