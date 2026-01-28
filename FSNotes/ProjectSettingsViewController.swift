@@ -22,10 +22,30 @@ class ProjectSettingsViewController: SettingsViewController {
     @IBOutlet weak var nestedFoldersContent: NSButton!
     @IBOutlet weak var gitView: NSView!
     @IBOutlet weak var gitViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var mainProjectMessage: NSTextField!
     
     override func viewDidLoad() {
         gitView.isHidden = true
         gitViewHeight.constant = 0
+        mainProjectMessage?.isHidden = true
+    }
+    
+    private func hideGitControls(_ hidden: Bool) {
+        // Hide/show all the git controls from the parent class
+        origin?.isHidden = hidden
+        keyStatus?.isHidden = hidden
+        logTextField?.isHidden = hidden
+        removeButton?.isHidden = hidden
+        cloneButton?.isHidden = hidden
+        passphrase?.isHidden = hidden
+        progressIndicator?.isHidden = hidden
+        
+        // Also hide the labels in gitView
+        for subview in gitView.subviews {
+            if subview != mainProjectMessage {
+                subview.isHidden = hidden
+            }
+        }
     }
     
     @IBAction func sortBy(_ sender: NSButton) {
@@ -110,11 +130,36 @@ class ProjectSettingsViewController: SettingsViewController {
         directionDESC.state = project.settings.sortDirection == .desc ? .on : .off
 
         if project.parent == nil && !project.isTrash && !project.isEncrypted {
-            gitView.isHidden = false
-            gitViewHeight.constant = 150
+            // Check if this is the main/default project
+            let isMainProject = project.isDefault || project.isVirtual
+            
+            if isMainProject {
+                // For main project, check if git is configured
+                let hasGitConfigured = project.settings.gitOrigin != nil && !project.settings.gitOrigin!.isEmpty
+                
+                if hasGitConfigured {
+                    // Show message to go to Settings
+                    gitView.isHidden = false
+                    gitViewHeight.constant = 50
+                    hideGitControls(true)
+                    mainProjectMessage?.isHidden = false
+                    mainProjectMessage?.stringValue = NSLocalizedString("Main project; go to FSNotes → Settings → Git to configure.", comment: "")
+                } else {
+                    // No git configured for main project - hide entirely
+                    gitView.isHidden = true
+                    gitViewHeight.constant = 0
+                }
+            } else {
+                // Bookmark project - show full git controls
+                gitView.isHidden = false
+                gitViewHeight.constant = 150
+                hideGitControls(false)
+                mainProjectMessage?.isHidden = true
+                loadGit(project: project)
+            }
+        } else {
+            loadGit(project: project)
         }
-        
-        loadGit(project: project)
     }
 
     override func keyDown(with event: NSEvent) {
