@@ -14,7 +14,8 @@ enum GitSyncState {
     case synced           // Green: pulled within 5 min, no uncommitted changes
     case stale            // Yellow: pulled > 5 min ago, no uncommitted changes
     case uncommitted      // Orange: has uncommitted changes
-    case error            // Red: last operation failed or pull > 1 hour old
+    case veryStale        // Red: pull > 1 hour old (no actual error)
+    case error            // Red: last operation failed
     case inProgress       // Blue: operation currently running
     case notConfigured    // Grey: git not set up
     
@@ -23,6 +24,7 @@ enum GitSyncState {
         case .synced:       return .systemGreen
         case .stale:        return .systemYellow
         case .uncommitted:  return .systemOrange
+        case .veryStale:    return .systemRed
         case .error:        return .systemRed
         case .inProgress:   return .systemBlue
         case .notConfigured: return .systemGray
@@ -34,6 +36,7 @@ enum GitSyncState {
         case .synced:       return "Synced"
         case .stale:        return "Sync recommended"
         case .uncommitted:  return "Uncommitted changes"
+        case .veryStale:    return "Sync overdue"
         case .error:        return "Sync error"
         case .inProgress:   return "Syncing..."
         case .notConfigured: return "Git not configured"
@@ -154,9 +157,9 @@ class GitStatusIndicator: NSView {
         if let lastPull = GitStatusIndicator.lastPullTime {
             let elapsed = Date().timeIntervalSince(lastPull)
             
-            // More than 1 hour - error state
+            // More than 1 hour - very stale (but not an error)
             if elapsed > 3600 {
-                return .error
+                return .veryStale
             }
             
             // Check for uncommitted changes
