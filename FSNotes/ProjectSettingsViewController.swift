@@ -24,6 +24,7 @@ class ProjectSettingsViewController: SettingsViewController {
     @IBOutlet weak var gitViewHeight: NSLayoutConstraint!
     @IBOutlet weak var mainProjectMessage: NSTextField!
     @IBOutlet weak var gitRepositoryTitle: NSTextField!
+    @IBOutlet weak var panelHeading: NSTextField!
     
     override func viewDidLoad() {
         gitView.isHidden = true
@@ -111,6 +112,14 @@ class ProjectSettingsViewController: SettingsViewController {
 
     public func load(project: Project) {
         self.project = project
+        
+        // Set panel heading
+        let isMainProject = project.isDefault || project.isVirtual
+        if isMainProject {
+            panelHeading?.stringValue = NSLocalizedString("Options for Main Project", comment: "")
+        } else {
+            panelHeading?.stringValue = String(format: NSLocalizedString("Options for %@", comment: ""), project.label)
+        }
         
         if project.isVirtual {
             showInAll.isEnabled = false

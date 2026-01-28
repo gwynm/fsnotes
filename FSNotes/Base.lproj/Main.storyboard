@@ -2691,6 +2691,14 @@ Olena Hlushcneko</string>
                         <rect key="frame" x="0.0" y="0.0" width="530" height="593"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pnl-hdg-001" userLabel="Panel Heading">
+                                <rect key="frame" x="18" y="565" width="494" height="20"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Options for Project" id="pnl-hdg-cel">
+                                    <font key="font" metaFont="systemBold" size="14"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <button identifier="creationDate" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VM6-1W-eJP">
                                 <rect key="frame" x="118" y="497" width="108" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Creation date" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="PY8-lr-5qr">
@@ -2996,6 +3004,9 @@ Olena Hlushcneko</string>
                             </customView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="pnl-hdg-001" firstAttribute="leading" secondItem="MgV-BT-LsD" secondAttribute="leading" constant="20" id="pnl-hdg-c01"/>
+                            <constraint firstItem="pnl-hdg-001" firstAttribute="top" secondItem="MgV-BT-LsD" secondAttribute="top" constant="8" id="pnl-hdg-c02"/>
+                            <constraint firstAttribute="trailing" secondItem="pnl-hdg-001" secondAttribute="trailing" constant="20" id="pnl-hdg-c03"/>
                             <constraint firstItem="eOj-jC-ndy" firstAttribute="leading" secondItem="MgV-BT-LsD" secondAttribute="leading" constant="35" id="0h7-jj-nf1"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DQw-2B-ocF" secondAttribute="trailing" constant="20" symbolic="YES" id="2Cq-gV-DJM"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pbJ-GR-hHs" secondAttribute="trailing" constant="20" symbolic="YES" id="4Fe-0i-FW0"/>
@@ -3061,6 +3072,7 @@ Olena Hlushcneko</string>
                         <outlet property="gitViewHeight" destination="y4h-z9-5Bn" id="ZD0-kf-YuX"/>
                         <outlet property="mainProjectMessage" destination="mpm-msg-001" id="mpm-out-001"/>
                         <outlet property="gitRepositoryTitle" destination="OCO-lO-Kf7" id="grt-out-001"/>
+                        <outlet property="panelHeading" destination="pnl-hdg-001" id="pnl-hdg-out"/>
                         <outlet property="keyStatus" destination="qrS-Vp-k0u" id="cww-aB-UuB"/>
                         <outlet property="logTextField" destination="Az0-Zg-c5o" id="MLg-K0-H5D"/>
                         <outlet property="modificationDate" destination="qfE-2B-PiS" id="GzG-Jq-tKk"/>
