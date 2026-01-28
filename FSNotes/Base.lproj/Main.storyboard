@@ -2957,7 +2957,7 @@ Olena Hlushcneko</string>
                                     </progressIndicator>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mpm-msg-001" userLabel="Main Project Message">
                                         <rect key="frame" x="35" y="15" width="420" height="20"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Main project; go to FSNotes → Settings → Git to configure." id="mpm-cel-001">
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Main project; go to FSNotes → Settings → Git to configure git." id="mpm-cel-001">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -3031,7 +3031,7 @@ Olena Hlushcneko</string>
                             <constraint firstItem="DQw-2B-ocF" firstAttribute="firstBaseline" secondItem="i67-zB-31s" secondAttribute="firstBaseline" id="T18-Id-5Tv"/>
                             <constraint firstAttribute="trailing" secondItem="Xlx-2b-uqS" secondAttribute="trailing" constant="20" symbolic="YES" id="TBs-6d-4ip"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VM6-1W-eJP" secondAttribute="trailing" constant="20" symbolic="YES" id="USZ-Nw-DyD"/>
-                            <constraint firstItem="cFW-mP-L5G" firstAttribute="top" secondItem="MgV-BT-LsD" secondAttribute="top" constant="35" id="Umk-36-jqP"/>
+                            <constraint firstItem="cFW-mP-L5G" firstAttribute="top" secondItem="pnl-hdg-001" secondAttribute="bottom" constant="12" id="Umk-36-jqP"/>
                             <constraint firstItem="HIU-aj-0cI" firstAttribute="top" secondItem="cG6-mW-iPi" secondAttribute="bottom" constant="6" symbolic="YES" id="V7U-iW-zli"/>
                             <constraint firstItem="G4r-zr-CMm" firstAttribute="top" secondItem="VM6-1W-eJP" secondAttribute="bottom" constant="6" symbolic="YES" id="V9u-Uy-bdW"/>
                             <constraint firstItem="HIU-aj-0cI" firstAttribute="leading" secondItem="lRQ-kL-8RA" secondAttribute="leading" id="VtX-IY-5C2"/>

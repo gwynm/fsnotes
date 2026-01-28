@@ -153,7 +153,7 @@ class ProjectSettingsViewController: SettingsViewController {
                     gitViewHeight.constant = 50
                     hideGitControls(true)
                     mainProjectMessage?.isHidden = false
-                    mainProjectMessage?.stringValue = NSLocalizedString("Main project; go to FSNotes → Settings → Git to configure.", comment: "")
+                    mainProjectMessage?.stringValue = NSLocalizedString("Main project; go to FSNotes → Settings → Git to configure git.", comment: "")
                 } else {
                     // No git configured for main project - hide entirely
                     gitView.isHidden = true
