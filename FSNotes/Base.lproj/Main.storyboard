@@ -207,6 +207,12 @@ CA
                                                             <action selector="removeWebNote:" target="Ady-hI-5gd" id="nSU-Xz-O4T"/>
                                                         </connections>
                                                     </menuItem>
+                                                    <menuItem title="Open On Github" image="github_menu" localization="NO" mirroring="NO" identifier="shareMenu.openOnGithub" id="gHb-Qx-7Ym">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="openOnGithub:" target="Ady-hI-5gd" id="pKr-Wz-3Nm"/>
+                                                        </connections>
+                                                    </menuItem>
                                                 </items>
                                             </menu>
                                         </menuItem>
@@ -2210,6 +2216,12 @@ CA
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="removeWebNote:" target="XfG-lQ-9wD" id="nC3-xh-zYb"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Open On Github" image="github_menu" localization="NO" mirroring="NO" identifier="popup.openOnGithub" id="qRt-Bz-4Xm">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="openOnGithub:" target="rPt-NT-nkU" id="sLr-Tz-5Wn"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="fYh-FK-PdD"/>

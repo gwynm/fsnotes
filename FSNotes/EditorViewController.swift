@@ -621,6 +621,41 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         pasteboard.setString(note.title, forType: NSPasteboard.PasteboardType.string)
     }
     
+    @IBAction func openOnGithub(_ sender: Any) {
+        guard let note = getSelectedNotes()?.first,
+              let gitProject = note.project.getGitProject(),
+              let origin = gitProject.getGitOrigin(),
+              origin.contains("github.com") else { return }
+        
+        // Convert git origin to GitHub web URL
+        // Handles formats like:
+        // - git@github.com:user/repo.git
+        // - https://github.com/user/repo.git
+        var repoUrl = origin
+        
+        // Handle SSH format (git@github.com:user/repo.git)
+        if repoUrl.hasPrefix("git@github.com:") {
+            repoUrl = repoUrl.replacingOccurrences(of: "git@github.com:", with: "https://github.com/")
+        }
+        
+        // Remove .git suffix if present
+        if repoUrl.hasSuffix(".git") {
+            repoUrl = String(repoUrl.dropLast(4))
+        }
+        
+        // Get the note's path relative to the git project
+        let projectPath = gitProject.url.path
+        let notePath = note.url.path
+        let relativePath = notePath.replacingOccurrences(of: projectPath + "/", with: "")
+        
+        // Construct the full GitHub URL (default to master branch, could be configurable)
+        let githubUrl = "\(repoUrl)/blob/master/\(relativePath)"
+        
+        if let url = URL(string: githubUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? githubUrl) {
+            NSWorkspace.shared.open(url)
+        }
+    }
+    
     @IBAction func removeNoteEncryption(_ sender: Any) {
         guard var notes = getSelectedNotes(),
               let vc = ViewController.shared() else { return }
