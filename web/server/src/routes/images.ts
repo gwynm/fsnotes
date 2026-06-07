@@ -3,6 +3,7 @@ import multer from "multer";
 import path from "node:path";
 import crypto from "node:crypto";
 import express from "express";
+import { markDirty } from "../services/git.js";
 
 const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp"]);
 
