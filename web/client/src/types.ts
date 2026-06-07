@@ -1,1 +1,1 @@
-export type { Note, Folder, GitStatus, UploadResult, ApiError } from '../../shared/types';
+export type { Note, Folder, SaveStatus, UploadResult, ApiError } from '../../shared/types';

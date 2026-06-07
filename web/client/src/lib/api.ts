@@ -1,4 +1,4 @@
-import type { Note, Folder, GitStatus, UploadResult, ApiError } from '../types';
+import type { Note, Folder, SaveStatus, UploadResult, ApiError } from '../types';
 
 class ApiClientError extends Error {
   code: string;
@@ -131,6 +131,6 @@ export async function uploadFile(file: File): Promise<UploadResult> {
   return res.json();
 }
 
-export function getGitStatus(): Promise<GitStatus> {
-  return request<GitStatus>('/api/git/status');
+export function getSaveStatus(): Promise<SaveStatus> {
+  return request<SaveStatus>('/api/git/status');
 }

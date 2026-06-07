@@ -49,6 +49,10 @@ export const useNotesStore = create<NotesState>((set, get) => ({
 
       if (search) {
         params.search = search;
+        // Scope search to active folder (unless All Notes)
+        if (folder && folder !== ALL_NOTES && folder !== TRASH) {
+          params.folder = folder;
+        }
       } else if (folder === TRASH) {
         params.trash = true;
       } else if (folder && folder !== ALL_NOTES) {

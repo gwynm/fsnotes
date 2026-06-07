@@ -6,8 +6,8 @@ import Preview from './Preview';
 import { useUiStore } from '../store/ui';
 import { useNotesStore } from '../store/notes';
 import { useFoldersStore, ALL_NOTES } from '../store/folders';
-import { getGitStatus } from '../lib/api';
-import type { GitStatus } from '../types';
+import { getSaveStatus } from '../lib/api';
+import type { SaveStatus } from '../types';
 
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(
@@ -51,20 +51,20 @@ export default function Layout() {
   } = useNotesStore();
   const { activeFolder, folders, fetchFolders } = useFoldersStore();
 
-  const [gitStatus, setGitStatus] = useState<GitStatus | null>(null);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const isMobile = useIsMobile();
 
-  // Poll git status every 30s
+  // Poll save status every 3s
   useEffect(() => {
     const fetchStatus = () => {
-      getGitStatus()
-        .then(setGitStatus)
-        .catch(() => setGitStatus(null));
+      getSaveStatus()
+        .then(setSaveStatus)
+        .catch(() => setSaveStatus(null));
     };
     fetchStatus();
-    const interval = setInterval(fetchStatus, 30000);
+    const interval = setInterval(fetchStatus, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -76,7 +76,7 @@ export default function Layout() {
       clearTimeout(searchTimerRef.current);
       if (value.trim()) {
         searchTimerRef.current = setTimeout(() => {
-          fetchNotes(undefined, value.trim());
+          fetchNotes(activeFolder, value.trim());
         }, 300);
       } else {
         fetchNotes(activeFolder);
@@ -98,19 +98,15 @@ export default function Layout() {
     setMobilePane('editor');
   }, [activeFolder, folders, fetchFolders, setMobilePane]);
 
-  // Git status text — show what's actionable
-  const gitStatusText = gitStatus
-    ? gitStatus.clean && !gitStatus.ahead && !gitStatus.behind
-      ? 'git: clean'
-      : [
-          gitStatus.files ? `${gitStatus.files} uncommitted` : '',
-          gitStatus.ahead ? `${gitStatus.ahead} to push` : '',
-          gitStatus.behind ? `${gitStatus.behind} to pull` : '',
-        ]
-          .filter(Boolean)
-          .join(', ')
-          .replace(/^/, 'git: ')
+  // Save status display
+  const saveStatusText = saveStatus
+    ? saveStatus.state === 'saved'
+      ? 'All changes saved'
+      : saveStatus.state === 'saving'
+        ? 'Saving...'
+        : `ERROR: ${saveStatus.error || 'Unknown error'}`
     : '';
+  const saveStatusColor = saveStatus?.state === 'error' ? 'text-red-600 font-semibold' : 'text-gray-400';
 
   // Mobile layout: stack navigation
   if (isMobile) {
@@ -159,8 +155,8 @@ export default function Layout() {
         </main>
 
         {/* Mobile footer */}
-        <footer className="flex items-center border-t border-gray-200 px-4 py-1.5 text-[11px] text-gray-400 bg-gray-50 shrink-0">
-          <span>{gitStatusText}</span>
+        <footer className={`flex items-center border-t border-gray-200 px-4 py-1.5 text-[11px] bg-gray-50 shrink-0 ${saveStatusColor}`}>
+          <span>{saveStatusText}</span>
         </footer>
       </div>
     );
@@ -234,8 +230,8 @@ export default function Layout() {
       </main>
 
       {/* Footer */}
-      <footer className="flex items-center border-t border-gray-200 px-4 py-1.5 text-[11px] text-gray-400 bg-gray-50 shrink-0">
-        <span>{gitStatusText}</span>
+      <footer className={`flex items-center border-t border-gray-200 px-4 py-1.5 text-[11px] bg-gray-50 shrink-0 ${saveStatusColor}`}>
+        <span>{saveStatusText}</span>
       </footer>
     </div>
   );

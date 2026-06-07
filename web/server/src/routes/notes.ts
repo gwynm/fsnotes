@@ -29,7 +29,7 @@ export function createNotesRouter(notesRoot: string): Router {
 
       // If search query, use search service
       if (search && search.trim().length > 0) {
-        const results = await searchNotes(notesRoot, search);
+        const results = await searchNotes(notesRoot, search, folder);
         res.json(results);
         return;
       }

@@ -9,7 +9,8 @@ import { getNote } from "./storage.js";
  */
 export async function searchNotes(
   notesRoot: string,
-  query: string
+  query: string,
+  folder?: string
 ): Promise<Note[]> {
   const terms = query
     .toLowerCase()
@@ -22,6 +23,11 @@ export async function searchNotes(
   const results: Note[] = [];
 
   for (const relativePath of allPaths) {
+    // Filter by folder if specified
+    if (folder) {
+      const noteFolder = relativePath.split("/")[0];
+      if (noteFolder !== folder) continue;
+    }
     try {
       const content = await readNoteContent(notesRoot, relativePath);
       const lowerContent = content.toLowerCase();
