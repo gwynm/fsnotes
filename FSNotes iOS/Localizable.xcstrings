@@ -77,6 +77,12 @@
         }
       }
     },
+    "(optional)" : {
+
+    },
+    "(or use private key)" : {
+
+    },
     "+" : {
       "comment" : "Settings",
       "localizations" : {
@@ -229,6 +235,9 @@
           }
         }
       }
+    },
+    "Actions" : {
+      "comment" : "SFTP settings"
     },
     "Add External Folder" : {
       "comment" : "Settings",
@@ -687,6 +696,9 @@
           }
         }
       }
+    },
+    "Authentication" : {
+      "comment" : "SFTP settings"
     },
     "Auto Rename By Title" : {
       "comment" : "Settings",
@@ -1531,6 +1543,12 @@
         }
       }
     },
+    "Connection Failed" : {
+
+    },
+    "Connection Successful" : {
+
+    },
     "Container" : {
       "comment" : "Settings",
       "localizations" : {
@@ -1683,6 +1701,9 @@
           }
         }
       }
+    },
+    "Could not authenticate. Check credentials." : {
+
     },
     "Create Folder" : {
       "comment" : "Main view popover table",
@@ -3289,6 +3310,9 @@
         }
       }
     },
+    "Failed to render the note as HTML." : {
+
+    },
     "Family" : {
       "comment" : "Settings",
       "localizations" : {
@@ -4748,6 +4772,9 @@
         }
       }
     },
+    "Host" : {
+
+    },
     "iCloud Drive" : {
       "comment" : "Settings",
       "localizations" : {
@@ -5443,6 +5470,9 @@
         }
       }
     },
+    "loaded" : {
+
+    },
     "Loading..." : {
       "localizations" : {
         "cs" : {
@@ -5826,6 +5856,9 @@
         }
       }
     },
+    "Missing Host" : {
+
+    },
     "Modification Date" : {
       "localizations" : {
         "cs" : {
@@ -5904,6 +5937,7 @@
     },
     "More" : {
       "comment" : "Table row action",
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -6207,6 +6241,9 @@
           }
         }
       }
+    },
+    "not set" : {
+
     },
     "Notes" : {
       "comment" : "Notes in sidebar\nSidebar items\nSidebar label",
@@ -7048,6 +7085,9 @@
         }
       }
     },
+    "Please enter a host address." : {
+
+    },
     "Please enter valid password" : {
       "localizations" : {
         "cs" : {
@@ -7124,6 +7164,9 @@
         }
       }
     },
+    "Please set a password or import a private key in SFTP settings." : {
+
+    },
     "Please try again" : {
       "localizations" : {
         "cs" : {
@@ -7199,6 +7242,9 @@
           }
         }
       }
+    },
+    "Port" : {
+
     },
     "Private Key" : {
       "localizations" : {
@@ -7352,6 +7398,9 @@
         }
       }
     },
+    "Public Key" : {
+
+    },
     "Public Key (optional)" : {
       "localizations" : {
         "cs" : {
@@ -7503,6 +7552,12 @@
           }
         }
       }
+    },
+    "Remote Path" : {
+
+    },
+    "Remote path is not configured in SFTP settings." : {
+
     },
     "Remove Encryption" : {
       "localizations" : {
@@ -8804,6 +8859,9 @@
         }
       }
     },
+    "Server" : {
+      "comment" : "SFTP settings"
+    },
     "Settings" : {
       "comment" : "Sidebar settings",
       "localizations" : {
@@ -8880,6 +8938,9 @@
           }
         }
       }
+    },
+    "SFTP Error" : {
+
     },
     "Share" : {
       "localizations" : {
@@ -9346,6 +9407,9 @@
         }
       }
     },
+    "Successfully connected to the server." : {
+
+    },
     "Support" : {
       "comment" : "Settings",
       "localizations" : {
@@ -9499,6 +9563,12 @@
           }
         }
       }
+    },
+    "Test Connection" : {
+
+    },
+    "Testing…" : {
+
     },
     "Thanks" : {
       "comment" : "Settings",
@@ -10343,6 +10413,9 @@
         }
       }
     },
+    "Use Custom SFTP Server" : {
+
+    },
     "Use First Line as Title" : {
       "localizations" : {
         "cs" : {
@@ -10571,6 +10644,9 @@
           }
         }
       }
+    },
+    "Username" : {
+
     },
     "Verify Password" : {
       "localizations" : {
@@ -10955,6 +11031,12 @@
         }
       }
     },
+    "Web" : {
+      "comment" : "Settings"
+    },
+    "Web Publishing (SFTP)" : {
+      "comment" : "Settings"
+    },
     "Web sharing error" : {
       "localizations" : {
         "cs" : {
@@ -11030,6 +11112,12 @@
           }
         }
       }
+    },
+    "Web URL" : {
+
+    },
+    "Web URL is not configured in SFTP settings." : {
+
     },
     "Website" : {
       "comment" : "Settings",

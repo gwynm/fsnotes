@@ -1034,9 +1034,16 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             saveSelectedRange()
         }
         
-        // fixes backtick marked text
-        if event.keyCode == kVK_ANSI_Grave {
-            super.insertText("`", replacementRange: selectedRange())
+        // Insert the third Markdown fence backtick literally, but leave other backtick
+        // input to AppKit so French accent grave composition continues to work.
+        
+        let currentRange = selectedRange()
+        if event.charactersIgnoringModifiers == "`",
+           currentRange.length == 0,
+           currentRange.location >= 2,
+           (string as NSString).substring(with: NSRange(location: currentRange.location - 2, length: 2)) == "``" {
+            insertText("`", replacementRange: currentRange)
+            saveSelectedRange()
             return
         }
 
@@ -1207,7 +1214,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
         
         if detectCompletionContext() != .none {
-            complete(nil)
+            DispatchQueue.main.async {
+                self.complete(nil)
+            }
         }
     }
     

@@ -109,7 +109,7 @@ class Storage {
         // Bookmarks
         for project in projects {
             if project.isBookmark {
-                _ = project.loadNotes(cacheOnly: true)
+                _ = project.loadNotes()
             }
         }
 
@@ -121,6 +121,8 @@ class Storage {
         }
 
         loadProjectRelations()
+        
+        loadPins(notes: noteList)
         
         plainWriter.maxConcurrentOperationCount = 1
         plainWriter.qualityOfService = .userInteractive
@@ -347,8 +349,8 @@ class Storage {
     }
     
     public func removeBy(project: Project) {
-        self.noteList.removeAll(where: { $0.project ==
-            project })
+        self.noteList.removeAll(where: { $0.project.url ==
+            project.url })
         
         projects.removeAll(where: { $0.url == project.url })
     }
@@ -659,53 +661,50 @@ class Storage {
 
     public func getTitles(by word: String? = nil) -> [String]? {
         var notes = noteList
-
         if let word = word {
             notes = notes
                 .filter{
-                    $0.title.contains(word) && $0.project.settings.isFirstLineAsTitle()
-                    || $0.fileName.contains(word) && !$0.project.settings.isFirstLineAsTitle()
-
+                    $0.title.range(of: word, options: .caseInsensitive) != nil && $0.project.settings.isFirstLineAsTitle()
+                    || $0.fileName.range(of: word, options: .caseInsensitive) != nil && !$0.project.settings.isFirstLineAsTitle()
                 }
                 .filter({ !$0.isTrash() })
-
+            
             guard notes.count > 0 else { return nil }
-
             var titles = notes.map{ String($0.project.settings.isFirstLineAsTitle() ? $0.title : $0.fileName) }
-
+            
             titles = Array(Set(titles))
             titles = titles
                 .filter({ !$0.starts(with: "![](") && !$0.starts(with: "[[") })
                 .sorted { (first, second) -> Bool in
-                    if first.starts(with: word) && second.starts(with: word)
-                        || !first.starts(with: word) && !second.starts(with: word)
-                    {
-                        return first < second
+                    let firstStarts = first.range(of: word, options: [.caseInsensitive, .anchored]) != nil
+                    let secondStarts = second.range(of: word, options: [.caseInsensitive, .anchored]) != nil
+                    
+                    if firstStarts && secondStarts || !firstStarts && !secondStarts {
+                        return first.localizedCaseInsensitiveCompare(second) == .orderedAscending
                     }
-
-                    return (first.starts(with: word) && !second.starts(with: word))
+                    
+                    return firstStarts && !secondStarts
                 }
-
+            
             if titles.count > 100 {
                 return Array(titles[0..<100])
             }
-
+            
             return titles
         }
-
+        
         guard notes.count > 0 else { return nil }
-
-        notes = notes.sorted { (first, second) -> Bool in
+        notes = notes.sorted { first, second in
             return first.modifiedLocalAt > second.modifiedLocalAt
         }
-
+        
         let titles = notes
             .filter({ !$0.isTrash() })
             .map{ String($0.project.settings.isFirstLineAsTitle() ? $0.title : $0.fileName ) }
             .filter({ $0.count > 0 })
             .filter({ !$0.starts(with: "![](") })
             .prefix(100)
-
+        
         return Array(titles)
     }
     
@@ -868,6 +867,8 @@ class Storage {
         for note in notes {
             if names.contains(note.getRelatedPath()) {
                 note.addPin(cloudSave: false)
+            } else {
+                note.removePin(cloudSave: false)
             }
         }
         #endif
@@ -1186,6 +1187,7 @@ class Storage {
             removeNotes.append(contentsOf: append)
         }
 
+        loadPins(notes: insertNotes)
 
         return (remove, insert, removeNotes, insertNotes)
     }

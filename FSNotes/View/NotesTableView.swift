@@ -73,7 +73,11 @@ class NotesTableView: NSTableView,
         
         if event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control) {
             if vc.editor?.isPreviewEnabled() == true {
-                NSApp.mainWindow?.makeFirstResponder(vc.editor.markdownView)
+                DispatchQueue.main.async {
+                    if let webView = vc.editor.markdownView?.webView {
+                        NSApp.mainWindow?.makeFirstResponder(webView)
+                    }
+                }
             } else {
                 vc.focusEditArea()
             }
@@ -631,12 +635,16 @@ class NotesTableView: NSTableView,
 
     public func reloadRow(note: Note) {
         DispatchQueue.global(qos: .userInitiated).async {
-            note.invalidateCache()
-            note.loadPreviewInfo()
+            self.reloadRowSync(note: note)
+        }
+    }
+    
+    public func reloadRowSync(note: Note) {
+        note.invalidateCache()
+        note.loadPreviewInfo()
 
-            DispatchQueue.main.async {
-                self.performReload(note: note)
-            }
+        DispatchQueue.main.async {
+            self.performReload(note: note)
         }
     }
     

@@ -22,6 +22,7 @@ class EditTextView: UITextView, UITextViewDelegate {
     public var imagesLoaderQueue = OperationQueue.init()
     public var keyboardIsOpened = true
     public var callCounter = 0
+    public var isUpdating = false
     
     required init?(coder: NSCoder) {
         if #available(iOS 13.2, *) {
@@ -150,13 +151,16 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func cut(_ sender: Any?) {
-        let selectedRange = self.selectedRange
-        guard selectedRange.length > 0 else { return }
+        let range = selectedRange
+        guard range.length > 0 else { return }
 
-        let selectedString = textStorage.attributedSubstring(from: selectedRange)
-        let attributedString = NSMutableAttributedString(attributedString: selectedString).unloadTasks()
+        let selectedString = textStorage.attributedSubstring(from: range)
+        let attributedString = NSMutableAttributedString(attributedString: selectedString)
+            .unloadTasks()
         attributedString.saveData()
 
+        super.cut(sender)
+        
         do {
             let data = try NSKeyedArchiver.archivedData(
                 withRootObject: attributedString,
@@ -164,23 +168,25 @@ class EditTextView: UITextView, UITextViewDelegate {
             )
 
             UIPasteboard.general.setItems([
-                [UIPasteboard.attributed: data],
-                [UTType.plainText.identifier: attributedString.string]
+                [
+                    UIPasteboard.attributed: data,
+                    UTType.plainText.identifier: attributedString.string
+                ]
             ])
         } catch {
             print("Serialization error: \(error)")
         }
-
-        if let should = delegate?.textView?(self, shouldChangeTextIn: selectedRange, replacementText: "") {
-            guard should else { return }
-        }
-
-        let empty = NSAttributedString(string: "")
-        self.insertAttributedText(empty)
     }
 
-
     override func paste(_ sender: Any?) {
+        isUpdating = true
+        
+        defer {
+            DispatchQueue.main.async {
+                self.isUpdating = false
+            }
+        }
+        
         let pb = UIPasteboard.general
         var toInsert: NSAttributedString?
 
@@ -241,8 +247,10 @@ class EditTextView: UITextView, UITextViewDelegate {
             )
 
             UIPasteboard.general.setItems([
-                [UIPasteboard.attributed: data],
-                [UTType.plainText.identifier: attributedString.string]
+                [
+                    UIPasteboard.attributed: data,
+                    UTType.plainText.identifier: attributedString.string
+                ]
             ])
 
             return
@@ -318,13 +326,7 @@ class EditTextView: UITextView, UITextViewDelegate {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
-        guard traitCollection.hasDifferentColorAppearance(
-            comparedTo: previousTraitCollection
-        ) else { return }
-
-        NotesTextProcessor.hl = nil
-        
-        UIApplication.getEVC().refill()
+        UIApplication.getEVC().themeObserver()
     }
 }
 
