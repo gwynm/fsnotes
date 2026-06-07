@@ -1,0 +1,7 @@
+node_modules
+*/node_modules
+*/dist
+notes-data
+e2e/screenshots
+.git
+DESIGN.md

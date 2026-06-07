@@ -1,0 +1,14 @@
+services:
+  fsnotes:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - test-notes:/data/notes
+    environment:
+      - NOTES_ROOT=/data/notes
+      - GIT_AUTO_COMMIT_SECS=0
+      - GIT_AUTO_PULL_SECS=0
+
+volumes:
+  test-notes:
