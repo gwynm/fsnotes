@@ -59,6 +59,7 @@ export function createImagesRouter(notesRoot: string): Router {
           markdown = `[${req.file.originalname}](../files/${filename})`;
         }
 
+        markDirty();
         res.json({ markdown });
       } catch (err) {
         next(err);
