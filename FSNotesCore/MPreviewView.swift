@@ -322,12 +322,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     }
 
     public static func buildPage(for note: Note, at dst: URL, web: Bool = false, print: Bool = false) -> URL? {
-        var markdownString = note.getPrettifiedContent()
-        
-        // Hack for WebView compatibility
-        if print {
-            markdownString = MPreviewView.assignBase64Images(note: note, html: markdownString)
-        }
+        let markdownString = note.getPrettifiedContent()
         
         var htmlString = renderMarkdownHTML(markdown: markdownString)!
         
@@ -364,7 +359,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let state = !(web || print)
         htmlString = MPreviewView.loadAttachments(html: htmlString, note: note, showButton: state)
 
-        if let urls = note.imageUrl, urls.count > 0, !print {
+        if let urls = note.imageUrl, urls.count > 0 {
             htmlString = MPreviewView.loadImages(imagesStorage: imagesStorage, html: htmlString, at: dst, web: web)
         }
 
@@ -706,7 +701,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         }
 
         let codeBackground = NotesTextProcessor.getHighlighter().options.style.backgroundColor.hexString
-
+        var maxImageWidth = String(Int(UserDefaultsManagement.imagesWidth)) + "px"
+        
     #if os(iOS)
         let fontSize = UserDefaultsManagement.noteFont.pointSize
         let codeFontSize = fontSize
@@ -715,6 +711,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let oneCharSize = ("A" as NSString).size(withAttributes: tagAttributes as [NSAttributedString.Key : Any])
         let codeLineHeight = UserDefaultsManagement.editorLineSpacing / 2 + Float(oneCharSize.height)
         let lineHeight = Int(UserDefaultsManagement.editorLineSpacing) + Int(UserDefaultsManagement.noteFont.lineHeight)
+        
+        maxImageWidth = "auto"
     #else
         let fontSize = UserDefaultsManagement.fontSize
         let codeFontSize = UserDefaultsManagement.codeFontSize
@@ -722,8 +720,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let codeLineHeight = computeDefaultLineHeight(for: UserDefaultsManagement.codeFont, lineHeightMultiple: UserDefaultsManagement.lineHeightMultiple)
         let lineHeight = computeDefaultLineHeight(for: UserDefaultsManagement.noteFont, lineHeightMultiple: UserDefaultsManagement.lineHeightMultiple)
     #endif
-        
-        let maxImageWidth = Int(UserDefaultsManagement.imagesWidth)
 
         var result = """
             @font-face {
@@ -740,7 +736,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         
             body {font: \(fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; -webkit-text-size-adjust: none;}
             code, pre {font: \(codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; -webkit-text-size-adjust: none; }
-            img:not(footer img, .attachment) {display: block; margin: 0 auto; max-width: \(maxImageWidth)px; }
+            img:not(footer img, .attachment) {display: block; margin: 0 auto; max-width: \(maxImageWidth); }
         
             img.attachment { height: \(fontSize + 5)px; max-width: auto }
             a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }

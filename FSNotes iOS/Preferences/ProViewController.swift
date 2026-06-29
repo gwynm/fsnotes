@@ -22,7 +22,8 @@ class ProViewController: UITableViewController {
         [
             NSLocalizedString("Default Keyboard", comment: ""),
             NSLocalizedString("Use Inline Tags", comment: ""),
-            NSLocalizedString("Use TextBundle info.json to store c/mtime", comment: "")
+            NSLocalizedString("Use TextBundle info.json to store c/mtime", comment: ""),
+            NSLocalizedString("Use First Line as Title", comment: "")
         ], [
             NSLocalizedString("Sort By", comment: ""),
             NSLocalizedString("Library", comment: "")
@@ -70,6 +71,10 @@ class ProViewController: UITableViewController {
             case 2:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = UserDefaultsManagement.useTextBundleMetaToStoreDates
+                break
+            case 3:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.firstLineAsTitle
                 break
             default:
                 break
@@ -119,6 +124,10 @@ class ProViewController: UITableViewController {
         case 2:
             guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
             UserDefaultsManagement.useTextBundleMetaToStoreDates = uiSwitch.isOn
+        case 3:
+            guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+            UserDefaultsManagement.firstLineAsTitle = uiSwitch.isOn
+            UIApplication.getVC().notesTable.reloadData()
         default:
             return
         }

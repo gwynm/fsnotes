@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@fsnotes/shared": ["../shared/types.ts"],
+      "@fsnotes/shared/*": ["../shared/*.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "references": [{ "path": "../shared" }]
+}

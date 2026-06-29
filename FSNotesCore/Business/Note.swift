@@ -388,7 +388,7 @@ public class Note: NSObject  {
 
                 return attr[FileAttributeKey.modificationDate] as? Date
             } catch {
-                NSLog("Note modification date load error: \(error.localizedDescription)")
+                print("Note modification date load error: \(error.localizedDescription)")
             }
         }
 
@@ -425,7 +425,7 @@ public class Note: NSObject  {
 
                 return attr[FileAttributeKey.creationDate] as? Date
             } catch {
-                NSLog("Note creation date load error: \(error.localizedDescription)")
+                print("Note creation date load error: \(error.localizedDescription)")
             }
         }
 
@@ -463,7 +463,7 @@ public class Note: NSObject  {
                 }
             #endif
 
-            NSLog("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(destination.deletingPathExtension().lastPathComponent)\"")
+            print("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(destination.deletingPathExtension().lastPathComponent)\"")
         } catch {
             Swift.print(error)
             return false
@@ -824,67 +824,68 @@ public class Note: NSObject  {
         var extractedTitle = String()
         var author = String()
         var date = String()
-        
+
         if (content.hasPrefix("---\n")) {
-            var list = content.components(separatedBy: "---")
-            
-            if (list.count > 2) {
-                let headerList = list[1].components(separatedBy: "\n")
+            let searchStart = content.index(content.startIndex, offsetBy: 4)
+
+            if let closingRange = content.range(of: "\n---\n", range: searchStart..<content.endIndex) {
+                let yamlBlock = String(content[searchStart..<closingRange.lowerBound])
+                let remainingContent = String(content[closingRange.upperBound...])
+
+                let headerList = yamlBlock.components(separatedBy: "\n")
                 for header in headerList {
                     if header.hasPrefix("title:") {
                         extractedTitle = header.replacingOccurrences(of: "title:", with: "").trim()
-                        
+
                         if extractedTitle.hasPrefix("\"") && extractedTitle.hasSuffix("\""){
                             extractedTitle = String(extractedTitle.dropFirst(1))
                             extractedTitle = String(extractedTitle.dropLast(1))
                         }
                     }
-                    
+
                     if header.hasPrefix("author:") {
                         author = header.replacingOccurrences(of: "author:", with: "").trim()
-                        
+
                         if author.hasPrefix("\"") && author.hasSuffix("\""){
                             author = String(author.dropFirst(1))
                             author = String(author.dropLast(1))
                         }
                     }
-                    
+
                     if header.hasPrefix("date:") {
                         date = header.replacingOccurrences(of: "date:", with: "").trim()
-                        
+
                         if date.hasPrefix("\"") && date.hasSuffix("\""){
                             date = String(date.dropFirst(1))
                             date = String(date.dropLast(1))
                         }
                     }
                 }
-                
-                list.removeSubrange(Range(0...1))
-                
+
                 var result = String()
-                
+
                 if (extractedTitle.count > 0) {
                     result = "<h1 class=\"no-border\">" + extractedTitle + "</h1>\n\n"
                 }
-                
+
                 if (author.count > 0) {
                     result += "_" + author + "_\n\n"
                 }
-                
+
                 if (date.count > 0) {
                     result += "_" + date + "_\n\n"
                 }
-                
+
                 if result.count > 0 {
                     result += "<hr>\n\n"
                 }
-                
-                result += list.joined()
-                
+
+                result += remainingContent
+
                 return result
             }
         }
-        
+
         return content
     }
     
@@ -1076,7 +1077,7 @@ public class Note: NSObject  {
                 }
             }
         } catch {
-            NSLog("Write error \(error)")
+            print("Write error \(String(describing: error))")
             return false
         }
 
@@ -1194,14 +1195,25 @@ public class Note: NSObject  {
     }
         
     func getFileAttributes() -> [FileAttributeKey: Any] {
-        let url = getContentFileURL() ?? url
-        var attributes: [FileAttributeKey: Any] = [:]
+        let sourceURL = getContentFileURL() ?? url
         
-        do {
-            attributes = try FileManager.default.attributesOfItem(atPath: url.path)
-        } catch {}
+        var attributes: [FileAttributeKey: Any] = [
+            .modificationDate: modifiedLocalAt,
+            .creationDate: creationDate
+        ]
 
-        attributes[.modificationDate] = modifiedLocalAt
+        guard let sourceAttributes = try? FileManager.default.attributesOfItem(atPath: sourceURL.path) else {
+            return attributes
+        }
+
+        if let creationDate = sourceAttributes[.creationDate] {
+            attributes[.creationDate] = creationDate
+        }
+
+        if let permissions = sourceAttributes[.posixPermissions] {
+            attributes[.posixPermissions] = permissions
+        }
+
         return attributes
     }
     
@@ -1245,6 +1257,10 @@ public class Note: NSObject  {
     }
     
     public func scanContentTags() -> ([String], [String]) {
+        if !isLoaded {
+            cacheCodeBlocks()
+        }
+        
         var added = [String]()
         var removed = [String]()
 
@@ -1257,7 +1273,7 @@ public class Note: NSObject  {
         var tags = [String]()
         
         do {
-            let range = NSRange(location: 0, length: content.string.count)
+            let range = NSRange(content.string.startIndex..., in: content.string)
             let re = try NSRegularExpression(pattern: FSParser.tagsPattern, options: options)
             
             re.enumerateMatches(

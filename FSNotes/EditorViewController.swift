@@ -42,9 +42,20 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     public var encCompletionHandler: ((String) -> Void)?
     
     public func initView() {
-        vcEditor?.delegate = self
+        guard let editor = vcEditor else { return }
+        editor.delegate = self
         
         initScrollObserver()
+        
+        editor.isGrammarCheckingEnabled = UserDefaultsManagement.grammarChecking
+        editor.isContinuousSpellCheckingEnabled = UserDefaultsManagement.continuousSpellChecking
+        editor.smartInsertDeleteEnabled = UserDefaultsManagement.smartInsertDelete
+        editor.isAutomaticSpellingCorrectionEnabled = UserDefaultsManagement.automaticSpellingCorrection
+        editor.isAutomaticQuoteSubstitutionEnabled = UserDefaultsManagement.automaticQuoteSubstitution
+        editor.isAutomaticDataDetectionEnabled = UserDefaultsManagement.automaticDataDetection
+        editor.isAutomaticLinkDetectionEnabled = UserDefaultsManagement.automaticLinkDetection
+        editor.isAutomaticTextReplacementEnabled = UserDefaultsManagement.automaticTextReplacement
+        editor.isAutomaticDashSubstitutionEnabled = UserDefaultsManagement.automaticDashSubstitution
     }
         
     deinit {
@@ -194,6 +205,18 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
                     menuItem.title = vc.isVisibleSidebar()
                     ? NSLocalizedString("Hide Sidebar", comment: "")
                     : NSLocalizedString("Show Sidebar", comment: "")
+                    break
+                    
+                case "view.toggleFooter":
+                    menuItem.title = vc.isVisibleFooter()
+                    ? NSLocalizedString("Hide Footer", comment: "")
+                    : NSLocalizedString("Show Footer", comment: "")
+                    break
+                    
+                case "view.toggleContents":
+                    menuItem.title = vc.isVisibleContents()
+                    ? NSLocalizedString("Hide Contents", comment: "")
+                    : NSLocalizedString("Show Contents", comment: "")
                     break
                     
                 case "viewMenu.actualSize":
@@ -609,6 +632,41 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         pasteboard.setString(note.title, forType: NSPasteboard.PasteboardType.string)
     }
     
+    @IBAction func openOnGithub(_ sender: Any) {
+        guard let note = getSelectedNotes()?.first,
+              let gitProject = note.project.getGitProject(),
+              let origin = gitProject.getGitOrigin(),
+              origin.contains("github.com") else { return }
+        
+        // Convert git origin to GitHub web URL
+        // Handles formats like:
+        // - git@github.com:user/repo.git
+        // - https://github.com/user/repo.git
+        var repoUrl = origin
+        
+        // Handle SSH format (git@github.com:user/repo.git)
+        if repoUrl.hasPrefix("git@github.com:") {
+            repoUrl = repoUrl.replacingOccurrences(of: "git@github.com:", with: "https://github.com/")
+        }
+        
+        // Remove .git suffix if present
+        if repoUrl.hasSuffix(".git") {
+            repoUrl = String(repoUrl.dropLast(4))
+        }
+        
+        // Get the note's path relative to the git project
+        let projectPath = gitProject.url.path
+        let notePath = note.url.path
+        let relativePath = notePath.replacingOccurrences(of: projectPath + "/", with: "")
+        
+        // Construct the full GitHub URL (default to master branch, could be configurable)
+        let githubUrl = "\(repoUrl)/blob/master/\(relativePath)"
+        
+        if let url = URL(string: githubUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? githubUrl) {
+            NSWorkspace.shared.open(url)
+        }
+    }
+    
     @IBAction func removeNoteEncryption(_ sender: Any) {
         guard var notes = getSelectedNotes(),
               let vc = ViewController.shared() else { return }
@@ -879,6 +937,11 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         let shouldClearEditor = currentNote != nil && notes.contains(where: { $0 === currentNote })
         UserDataService.instance.searchTrigger = true
         vc.notesTableView.removeRows(notes: notes)
+        
+        // Delete sharing
+        for note in notes {
+            vc.deleteAPI(note: note)
+        }
         
         // Delete tags
         for note in notes {
@@ -1395,6 +1458,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
 
             updateLastEditedStatus()
             vc.reSort(note: note)
+            
+            // Update contents panel with debounce
+            vc.updateContentsPanel()
         }
 
         breakUndoTimer.invalidate()

@@ -79,7 +79,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public var initialLoadingState = false
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = false
 
         super.viewWillAppear(animated)
         navigationItem.searchController = nil
@@ -169,9 +169,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         super.viewDidLoad()
         
         configureToolbar()
+
+        isLandscape = UIDevice.current.orientation.isLandscape
     }
 
     @objc public func didBecomeActive() {
+        DispatchQueue.global(qos: .background).async {
+            self.checkExternal()
+        }
+        
         addPullTask()
     }
 
@@ -243,6 +249,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         notesTable.layer.zPosition = 100
         notesTable.rowHeight = UITableView.automaticDimension
         notesTable.estimatedRowHeight = 160
+        notesTable.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
     }
 
     public var lastSidebarItem: SidebarItem? = nil
@@ -272,6 +279,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         navigationItem.title = folder
+        
+        if #available(iOS 26.0, *) {
+            navigationItem.subtitle = qty
+        }
     }
 
     public func configureNotifications() {
@@ -308,11 +319,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let longTapOnSidebar = UILongPressGestureRecognizer(target: self, action: #selector(sidebarLongPress))
         longTapOnSidebar.minimumPressDuration = 0.5
         view.addGestureRecognizer(longTapOnSidebar)
-
-        let longTapOnNotes = UILongPressGestureRecognizer(target: self, action: #selector(notesLongPress))
-        longTapOnNotes.minimumPressDuration = 0.5
-        notesTable.addGestureRecognizer(longTapOnNotes)
-        notesTable.dragInteractionEnabled = UserDefaultsManagement.sidebarIsOpened
     }
 
     public func configureSearchController() {
@@ -414,22 +420,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         } else {
             showSidebar()
         }
-    }
-
-    @IBAction public func notesLongPress(gesture: UILongPressGestureRecognizer) {
-        guard !UserDefaultsManagement.sidebarIsOpened else { return }
-
-        let p = gesture.location(in: self.notesTable)
-
-        if let indexPath = notesTable.indexPathForRow(at: p) {
-            let note = notesTable.notes[indexPath.row]
-
-            if gesture.state == .began {
-                notesTable.actionsSheet(notes: [note], showAll: true, presentController: self)
-            }
-        }
-
-        gesture.state = .ended
     }
 
     @IBAction public func sidebarLongPress(gesture: UILongPressGestureRecognizer) {
@@ -654,9 +644,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func getLeftInset() -> CGFloat {
-        let left = UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0
-
-        return left
+        return view.safeAreaInsets.left
+    }
+    
+    public func getRightInset() -> CGFloat {
+        return view.safeAreaInsets.right
     }
 
     public func loadNotches() {
@@ -765,6 +757,43 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 self.notesTable.doVisualChanges(results: changes)
             }
         }
+    }
+    
+    public func checkExternal() {
+        let projects = Storage.shared().projects.filter({ $0.isBookmark })
+        
+        guard projects.count > 0 else { return }
+        
+        var remove = [Note]()
+        var insert = [Note]()
+        var reload = [Note]()
+        
+        for project in projects {
+            if let childProjects = project.getAllChild() {
+                for childProject in childProjects {
+                    let changes = childProject.checkFSAndMemoryDiff()
+                    remove += changes.0
+                    insert += changes.1
+                    reload += changes.2
+                }
+            }
+            
+            let changes = project.checkFSAndMemoryDiff()
+            remove += changes.0
+            insert += changes.1
+            reload += changes.2
+        }
+        
+        for note in insert {
+            note.loadPreviewInfo()
+        }
+        
+        for note in reload {
+            note.invalidateCache()
+            note.loadPreviewInfo()
+        }
+        
+        self.notesTable.doVisualChanges(results: (remove, insert, reload))
     }
 
     public func loadSearchController(query: String? = nil) {
@@ -1072,6 +1101,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             DispatchQueue.main.async {
                 self.loadNews()
+                self.resizeSidebar(withAnimation: true)
             }
         }
     }
@@ -1080,30 +1110,48 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         importSavedInSharedExtension()
     }
 
+    private var swipeStartLeadingConstant: CGFloat = 0
+
     @objc func handleSidebarSwipe(_ swipe: UIPanGestureRecognizer) {
         let notchWidth = getLeftInset()
         let translation = swipe.translation(in: notesTable)
 
         if swipe.state == .began {
+            maxSidebarWidth = calculateLabelMaxWidth()
             sidebarTableView.isUserInteractionEnabled = true
-            initSidebar()
+
+            if !UserDefaultsManagement.sidebarIsOpened {
+                self.sidebarTableLeadingConstraint.constant = -self.maxSidebarWidth
+                self.sidebarTableWidth.constant = self.maxSidebarWidth
+                self.notesTableLeadingConstraint.constant = 0
+                leftPreSafeArea.backgroundColor = UIColor.sidebar
+                notesTable.dragInteractionEnabled = false
+                sidebarTableView.isUserInteractionEnabled = false
+                swipeStartLeadingConstant = 0
+            } else {
+                let correctLeading = self.maxSidebarWidth + notchWidth
+                self.sidebarTableLeadingConstraint.constant = 0
+                self.sidebarTableWidth.constant = self.maxSidebarWidth
+                self.notesTableLeadingConstraint.constant = correctLeading
+                notesTable.dragInteractionEnabled = true
+                sidebarTableView.isUserInteractionEnabled = true
+                swipeStartLeadingConstant = correctLeading
+            }
+
             return
         }
 
         if swipe.state == .changed {
-            guard
-                UserDefaultsManagement.sidebarIsOpened && translation.x + notchWidth < 0 && (translation.x + notchWidth + maxSidebarWidth) > 0
-                || !UserDefaultsManagement.sidebarIsOpened && translation.x + notchWidth > 0 && translation.x + notchWidth < maxSidebarWidth
-            else { return }
+            let newLeading = swipeStartLeadingConstant + translation.x
+            let sidebarRange = maxSidebarWidth + notchWidth
+
+            guard newLeading >= 0 && newLeading <= sidebarRange else { return }
 
             UIView.animate(withDuration: 0.075, delay: 0.0, options: .beginFromCurrentState, animations: {
-                if translation.x + notchWidth > 0 {
-                    self.notesTableLeadingConstraint.constant = translation.x
-                    self.sidebarTableLeadingConstraint.constant = -self.maxSidebarWidth/2 + translation.x/2
-                } else {
-                    self.notesTableLeadingConstraint.constant = self.maxSidebarWidth + translation.x
-                    self.sidebarTableLeadingConstraint.constant = translation.x/2
-                }
+                self.notesTableLeadingConstraint.constant = newLeading
+                let sidebarOffset = max(0, newLeading - notchWidth)
+                let sidebarProgress = min(sidebarOffset, self.maxSidebarWidth) / self.maxSidebarWidth
+                self.sidebarTableLeadingConstraint.constant = -self.maxSidebarWidth * (1 - sidebarProgress)
                 self.view.layoutIfNeeded()
             })
             return
@@ -1113,7 +1161,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             if translation.x > 0 {
                 showSidebar()
             }
-
             if translation.x < 0 {
                 hideSidebar()
             }
@@ -1123,7 +1170,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private func initSidebar() {
         if UserDefaultsManagement.sidebarIsOpened {
             self.sidebarTableLeadingConstraint.constant = 0
-            self.notesTableLeadingConstraint.constant = self.maxSidebarWidth
+            self.notesTableLeadingConstraint.constant = self.maxSidebarWidth + getLeftInset()
 
             self.notesTable.dragInteractionEnabled = true
             self.sidebarTableView.isUserInteractionEnabled = true
@@ -1141,8 +1188,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     private func showSidebar() {
+        let leftInset = getLeftInset()
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .init(), animations: {
-            self.notesTableLeadingConstraint.constant = self.maxSidebarWidth
+            self.notesTableLeadingConstraint.constant = self.maxSidebarWidth + leftInset
             self.sidebarTableLeadingConstraint.constant = 0
             self.sidebarTableWidth.constant = self.maxSidebarWidth
             self.view.layoutIfNeeded()
@@ -1399,6 +1447,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func resizeSidebar(withAnimation: Bool = false) {
+        let leftInset = getLeftInset()
         let width = calculateLabelMaxWidth()
         maxSidebarWidth = width
 
@@ -1411,15 +1460,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if (withAnimation) {
             UIView.animate(withDuration: 0.3, delay: 0, options: .beginFromCurrentState, animations: {
                 let width = self.maxSidebarWidth
-                self.notesTableLeadingConstraint.constant = width
+                self.notesTableLeadingConstraint.constant = width + leftInset
                 self.sidebarTableLeadingConstraint.constant = 0
                 self.sidebarTableWidth.constant = width
             }) { _ in
 
             }
         } else {
-            notesTableLeadingConstraint.constant = maxSidebarWidth
-            sidebarTableWidth.constant = notesTableLeadingConstraint.constant
+            notesTableLeadingConstraint.constant = maxSidebarWidth + leftInset
+            sidebarTableWidth.constant = maxSidebarWidth
         }
     }
 

@@ -28,7 +28,8 @@ class AboutViewController: NSViewController, NSTableViewDataSource, NSTableViewD
         "Portuguese 🇵🇹",
         "Czech 🇨🇿",
         "Hindi 🇮🇳",
-        "Turkish 🇹🇷"
+        "Turkish 🇹🇷",
+        "Chinese 🇹🇼🇭🇰🇲🇴"
     ]
     
     private var authors = [
@@ -47,16 +48,16 @@ class AboutViewController: NSViewController, NSTableViewDataSource, NSTableViewD
         "Vanessa C. (github.com/VChristinne)",
         "Max Akrman (github.com/isametry)",
         "Aagman (stscpns@gmail.com)",
-        "Bünyamin Erol (bunyaminerol.com.tr)"
+        "Bünyamin Erol (bunyaminerol.com.tr)",
+        "Wen Xiang (imwwx@icloud.com)"
     ]
     
     override func viewDidLoad() {
-        if let dictionary = Bundle.main.infoDictionary,
-            let ver = dictionary["CFBundleShortVersionString"] as? String,
-            let build = dictionary["CFBundleVersion"] as? String {
-            versionLabel.stringValue = "Version \(ver) (\(build))"
-            versionLabel.isSelectable = true
-        }
+        let dictionary = Bundle.main.infoDictionary
+        let ver = dictionary?["CFBundleShortVersionString"] as? String ?? "?"
+        let build = dictionary?["CFBundleVersion"] as? String ?? "?"
+        versionLabel.stringValue = "Version \(ver) (\(build))\n(Gwyn's fork)"
+        versionLabel.isSelectable = true
         
         translatorsList.delegate = self
         translatorsList.dataSource = self

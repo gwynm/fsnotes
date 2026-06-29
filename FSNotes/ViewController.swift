@@ -12,6 +12,7 @@ import Foundation
 import Shout
 import UserNotifications
 import WebKit
+import Git
 
 class ViewController: EditorViewController,
     NSSplitViewDelegate,
@@ -141,7 +142,19 @@ class ViewController: EditorViewController,
     @IBOutlet weak var menuChangeCreationDate: NSMenuItem!
     
     @IBOutlet weak var counter: NSTextField!
+    @IBOutlet weak var notesCounterViewHeight: NSLayoutConstraint!
     @IBOutlet weak var notesCounter: NSTextField!
+    
+    @IBOutlet weak var notesListFooterHeight: NSLayoutConstraint!
+    @IBOutlet weak var editorFooterHeight: NSLayoutConstraint!
+    
+    // MARK: - Contents Panel
+    public var contentsSplitView: ContentsSplitView?
+    public var contentsOutlineView: ContentsOutlineView?
+    public var contentsScrollView: NSScrollView?
+    
+    // MARK: - Git Status Indicator
+    public var gitStatusIndicator: GitStatusIndicator?
     
     // MARK: - Overrides
     
@@ -162,10 +175,13 @@ class ViewController: EditorViewController,
             newNoteButton.image = NSImage(imageLiteralResourceName: "new_note_button").resize(to: CGSize(width: 20, height: 20))
         }
 
+        setupGitStatusIndicator()
+        
         configureShortcuts()
         configureDelegates()
         configureLayout()
         configureEditor()
+        configureContentsPanel()
 
         // Must before event manager starts
         self.storage.checkWelcome()
@@ -179,6 +195,14 @@ class ViewController: EditorViewController,
         loadMoveMenu()
         loadSortBySetting()
         checkSidebarConstraint()
+        
+        // Apply footer visibility from saved settings
+        if UserDefaultsManagement.footerHidden {
+            notesListFooterHeight.constant = 0
+            editorFooterHeight.constant = 0
+            notesCounter.isHidden = true
+            counter.isHidden = true
+        }
 
     #if CLOUD_RELATED_BLOCK
         registerKeyValueObserver()
@@ -304,6 +328,8 @@ class ViewController: EditorViewController,
                 
         if (UserDefaultsManagement.horizontalOrientation) {
             self.splitView.isVertical = false
+            notesCounterViewHeight.constant = 0
+            notesCounter.isHidden = true
         }
 
         self.menuChangeCreationDate.title = NSLocalizedString("Change Creation Date", comment: "Menu")
@@ -429,16 +455,6 @@ class ViewController: EditorViewController,
     }
 
     private func configureEditor() {
-        self.editor.isGrammarCheckingEnabled = UserDefaultsManagement.grammarChecking
-        self.editor.isContinuousSpellCheckingEnabled = UserDefaultsManagement.continuousSpellChecking
-        self.editor.smartInsertDeleteEnabled = UserDefaultsManagement.smartInsertDelete
-        self.editor.isAutomaticSpellingCorrectionEnabled = UserDefaultsManagement.automaticSpellingCorrection
-        self.editor.isAutomaticQuoteSubstitutionEnabled = UserDefaultsManagement.automaticQuoteSubstitution
-        self.editor.isAutomaticDataDetectionEnabled = UserDefaultsManagement.automaticDataDetection
-        self.editor.isAutomaticLinkDetectionEnabled = UserDefaultsManagement.automaticLinkDetection
-        self.editor.isAutomaticTextReplacementEnabled = UserDefaultsManagement.automaticTextReplacement
-        self.editor.isAutomaticDashSubstitutionEnabled = UserDefaultsManagement.automaticDashSubstitution
-
         self.editor?.linkTextAttributes = [
             .foregroundColor:  NSColor.init(named: "link")!
         ]
@@ -459,6 +475,204 @@ class ViewController: EditorViewController,
         vcNonSelectedLabel = nonSelectedLabel
         
         super.initView()
+    }
+    
+    private func configureContentsPanel() {
+        // Get the editor's parent view (EditorView)
+        guard let editorView = editAreaScroll.superview else { return }
+        
+        // Store the original frame of editAreaScroll before we modify anything
+        let scrollFrame = editAreaScroll.frame
+        
+        // Create the contents split view - this will hold the editor scroll view and contents panel
+        let contentsSplit = ContentsSplitView()
+        contentsSplit.isVertical = true
+        contentsSplit.dividerStyle = .thin
+        contentsSplit.frame = scrollFrame
+        contentsSplit.autoresizingMask = [.width, .height]
+        self.contentsSplitView = contentsSplit
+        
+        // Create scroll view for contents outline
+        let contentsScrollView = NSScrollView()
+        contentsScrollView.hasVerticalScroller = true
+        contentsScrollView.hasHorizontalScroller = false
+        contentsScrollView.autohidesScrollers = true
+        contentsScrollView.borderType = .noBorder
+        contentsScrollView.drawsBackground = false
+        contentsScrollView.autoresizingMask = [.width, .height]
+        self.contentsScrollView = contentsScrollView
+        
+        // Create the contents outline view
+        let outlineView = ContentsOutlineView()
+        outlineView.headerView = nil
+        outlineView.allowsMultipleSelection = false
+        outlineView.allowsEmptySelection = true
+        outlineView.indentationPerLevel = 16
+        outlineView.rowHeight = 22
+        outlineView.autoresizesOutlineColumn = true
+        outlineView.viewDelegate = self
+        self.contentsOutlineView = outlineView
+        
+        // Add a single column to the outline view
+        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("ContentsColumn"))
+        column.title = "Contents"
+        column.isEditable = false
+        outlineView.addTableColumn(column)
+        outlineView.outlineTableColumn = column
+        
+        contentsScrollView.documentView = outlineView
+        
+        // Create a container for the contents panel (no header needed)
+        let contentsContainer = NSView()
+        contentsContainer.autoresizingMask = [.width, .height]
+        
+        // Use constraints for scroll view positioning
+        contentsScrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentsContainer.addSubview(contentsScrollView)
+        
+        NSLayoutConstraint.activate([
+            // Scroll view fills entire container
+            contentsScrollView.topAnchor.constraint(equalTo: contentsContainer.topAnchor),
+            contentsScrollView.leadingAnchor.constraint(equalTo: contentsContainer.leadingAnchor),
+            contentsScrollView.trailingAnchor.constraint(equalTo: contentsContainer.trailingAnchor),
+            contentsScrollView.bottomAnchor.constraint(equalTo: contentsContainer.bottomAnchor)
+        ])
+        
+        // Remove editAreaScroll from its current position
+        // First, deactivate any constraints involving editAreaScroll
+        for constraint in editorView.constraints {
+            if constraint.firstItem === editAreaScroll || constraint.secondItem === editAreaScroll {
+                constraint.isActive = false
+            }
+        }
+        
+        editAreaScroll.removeFromSuperview()
+        
+        // Configure editAreaScroll for use in split view (remove Auto Layout, use autoresizing)
+        editAreaScroll.translatesAutoresizingMaskIntoConstraints = true
+        editAreaScroll.autoresizingMask = [.width, .height]
+        
+        // Add editAreaScroll to the split view (left/first pane)
+        contentsSplit.addSubview(editAreaScroll)
+        
+        // Add contents container to the split view (right/second pane)
+        contentsSplit.addSubview(contentsContainer)
+        
+        // Add the split view to the editor view where editAreaScroll was
+        editorView.addSubview(contentsSplit)
+        
+        // Set up the split view with constraints to match where editAreaScroll was
+        contentsSplit.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            contentsSplit.leadingAnchor.constraint(equalTo: editorView.leadingAnchor),
+            contentsSplit.trailingAnchor.constraint(equalTo: editorView.trailingAnchor),
+            contentsSplit.topAnchor.constraint(equalTo: titleBarView.bottomAnchor),
+            contentsSplit.bottomAnchor.constraint(equalTo: counter.superview!.topAnchor, constant: -2)
+        ])
+        
+        // Set initial frames for split view subviews
+        let contentsWidth: CGFloat = UserDefaultsManagement.contentsPanelHidden ? 0 : UserDefaultsManagement.contentsTableWidth
+        editAreaScroll.frame = NSRect(x: 0, y: 0, width: scrollFrame.width - contentsWidth - 1, height: scrollFrame.height)
+        contentsContainer.frame = NSRect(x: scrollFrame.width - contentsWidth, y: 0, width: contentsWidth, height: scrollFrame.height)
+        
+        // Apply visibility from saved settings
+        if UserDefaultsManagement.contentsPanelHidden {
+            hideContentsPanel()
+        } else {
+            showContentsPanel()
+        }
+    }
+    
+    private func showContentsPanel() {
+        guard let contentsSplit = contentsSplitView,
+              contentsSplit.subviews.count > 1 else { return }
+        
+        let contentsContainer = contentsSplit.subviews[1]
+        contentsContainer.isHidden = false
+        contentsSplit.shouldHideDivider = false
+        
+        let width = UserDefaultsManagement.contentsTableWidth
+        let totalWidth = contentsSplit.frame.width
+        contentsSplit.setPosition(totalWidth - width, ofDividerAt: 0)
+        contentsSplit.adjustSubviews()
+    }
+    
+    private func hideContentsPanel() {
+        guard let contentsSplit = contentsSplitView,
+              contentsSplit.subviews.count > 1 else { return }
+        
+        let contentsContainer = contentsSplit.subviews[1]
+        
+        // Save current width before hiding
+        let contentsWidth = contentsContainer.frame.width
+        if contentsWidth > 10 {
+            UserDefaultsManagement.contentsTableWidth = contentsWidth
+        }
+        
+        // Hide the container and collapse the split
+        contentsContainer.isHidden = true
+        contentsSplit.shouldHideDivider = true
+        contentsSplit.adjustSubviews()
+    }
+    
+    @IBAction func toggleContents(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        
+        if vc.isVisibleContents() {
+            vc.hideContentsPanel()
+            UserDefaultsManagement.contentsPanelHidden = true
+        } else {
+            vc.showContentsPanel()
+            UserDefaultsManagement.contentsPanelHidden = false
+            vc.updateContentsPanel()
+        }
+    }
+    
+    public func isVisibleContents() -> Bool {
+        guard let contentsSplit = contentsSplitView,
+              contentsSplit.subviews.count > 1 else { return false }
+        
+        let contentsContainer = contentsSplit.subviews[1]
+        return !contentsContainer.isHidden
+    }
+    
+    public func updateContentsPanel() {
+        guard isVisibleContents(),
+              let outlineView = contentsOutlineView,
+              let note = editor.note else {
+            contentsOutlineView?.clear()
+            return
+        }
+        
+        let headings = HeadingParser.parse(content: note.content.string)
+        outlineView.reload(headings: headings)
+    }
+    
+    public func scrollToHeading(_ heading: Heading) {
+        if vcEditor?.isPreviewEnabled() == true {
+            // Scroll web view to heading
+            if let markdownView = editor.markdownView?.webView {
+                let escapedText = heading.text.replacingOccurrences(of: "'", with: "\\'")
+                let js = """
+                    (function() {
+                        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                        for (var i = 0; i < headings.length; i++) {
+                            if (headings[i].textContent.trim() === '\(escapedText)') {
+                                headings[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                return true;
+                            }
+                        }
+                        return false;
+                    })()
+                """
+                markdownView.evaluateJavaScript(js, completionHandler: nil)
+            }
+        } else {
+            // Scroll text view to range
+            editor.scrollRangeToVisible(heading.range)
+            editor.showFindIndicator(for: heading.range)
+        }
     }
 
     private func configureShortcuts() {
@@ -995,9 +1209,7 @@ class ViewController: EditorViewController,
             vc.sidebarOutlineView.deselectAllRows()
         }
 
-        let inlineTags = vc.sidebarOutlineView.getSelectedInlineTags()
-
-        _ = vc.createNote(content: inlineTags)
+        _ = vc.createNote()
     }
         
     @IBAction func fileName(_ sender: NSTextField) {
@@ -1140,6 +1352,19 @@ class ViewController: EditorViewController,
         vc.editor.updateTextContainerInset()
     }
     
+    @IBAction func toggleFooter(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        
+        let hidden = !UserDefaultsManagement.footerHidden
+        UserDefaultsManagement.footerHidden = hidden
+        
+        let height: CGFloat = hidden ? 0 : 45
+        vc.notesListFooterHeight.constant = height
+        vc.editorFooterHeight.constant = height
+        vc.notesCounter.isHidden = hidden
+        vc.counter.isHidden = hidden
+    }
+    
     @IBAction func emptyTrash(_ sender: NSMenuItem) {
         let notes = storage.getAllTrash()
         for note in notes {
@@ -1265,7 +1490,7 @@ class ViewController: EditorViewController,
         
         notesTableView.beginUpdates()
         for note in updateViews {
-            notesTableView.reloadRow(note: note)
+            notesTableView.reloadRowSync(note: note)
 
             if search.stringValue.count == 0 {
                 sortAndMove(note: note)
@@ -1622,6 +1847,7 @@ class ViewController: EditorViewController,
         if srcIndex != dstIndex {
             notesTableView.moveRow(at: srcIndex, to: dstIndex)
             notesTableView.setNoteList(notes: resorted)
+            notesTableView.scrollRowToVisible(dstIndex)
         }
     }
     
@@ -2063,10 +2289,112 @@ class ViewController: EditorViewController,
         
         return size != 0
     }
+    
+    public func isVisibleFooter() -> Bool {
+        return !UserDefaultsManagement.footerHidden
+    }
 
     private func cacheGitRepositories() {
         _ = Storage.shared().getProjects().filter({ $0.hasRepository() }).map({
             $0.cacheHistory()
         })
+    }
+    
+    // MARK: - Git Status Indicator
+    
+    private func setupGitStatusIndicator() {
+        let indicator = GitStatusIndicator(frame: NSRect(x: 0, y: 0, width: 20, height: 20))
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Add to the same parent as newNoteButton
+        guard let parentView = newNoteButton.superview else { return }
+        parentView.addSubview(indicator)
+        
+        // Position: [search] -- 6 -- [newNoteButton] -- 6 -- [gitIndicator]
+        // Find and deactivate the constraint that ties newNoteButton trailing to parent
+        for constraint in parentView.constraints {
+            // Find the constraint: parent.trailing = newNoteButton.trailing + 7
+            if constraint.firstAttribute == .trailing,
+               constraint.secondItem as? NSButton == newNoteButton,
+               constraint.secondAttribute == .trailing {
+                constraint.isActive = false
+                break
+            }
+        }
+        
+        // Set up: [newNoteButton] -- 6 -- [gitIndicator] -- 7 -- |trailing|
+        NSLayoutConstraint.activate([
+            indicator.leadingAnchor.constraint(equalTo: newNoteButton.trailingAnchor, constant: 6),
+            indicator.centerYAnchor.constraint(equalTo: newNoteButton.centerYAnchor),
+            indicator.widthAnchor.constraint(equalToConstant: 20),
+            indicator.heightAnchor.constraint(equalToConstant: 20),
+            parentView.trailingAnchor.constraint(equalTo: indicator.trailingAnchor, constant: 7)
+        ])
+        
+        gitStatusIndicator = indicator
+        
+        // Add click gesture for manual sync
+        let clickGesture = NSClickGestureRecognizer(target: self, action: #selector(gitIndicatorClicked))
+        indicator.addGestureRecognizer(clickGesture)
+        
+        // Listen for status changes
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(gitStatusDidChange),
+            name: .gitStatusChanged,
+            object: nil
+        )
+    }
+    
+    @objc private func gitStatusDidChange() {
+        gitStatusIndicator?.updateState()
+    }
+    
+    @objc private func gitIndicatorClicked() {
+        // Trigger a git sync for the main project using the same code path as Pull/push button
+        guard let defaultProject = Storage.shared().getDefault(),
+              let gitProject = defaultProject.getGitProject(),
+              gitProject.getGitOrigin() != nil else {
+            return
+        }
+        
+        GitStatusIndicator.recordOperationStarted()
+        
+        ViewController.gitQueue.addOperation {
+            defer {
+                ViewController.gitQueueOperationDate = nil
+                ViewController.gitQueueBusy = false
+            }
+            
+            ViewController.gitQueueOperationDate = Date()
+            ViewController.gitQueueBusy = true
+            
+            // Use saveRevision which does: commit -> pull -> push
+            do {
+                try gitProject.saveRevision(commitMessage: nil)
+                _ = try gitProject.checkGitState()
+                GitStatusIndicator.recordPullSuccess()
+            } catch GitError.noAddedFiles {
+                // No changes to commit - still try pull/push
+                do {
+                    try gitProject.pull()
+                    try gitProject.push()
+                    _ = try gitProject.checkGitState()
+                    GitStatusIndicator.recordPullSuccess()
+                } catch {
+                    if let gitError = error as? GitError {
+                        GitStatusIndicator.recordError(gitError.associatedValue())
+                    } else {
+                        GitStatusIndicator.recordError(error.localizedDescription)
+                    }
+                }
+            } catch {
+                if let gitError = error as? GitError {
+                    GitStatusIndicator.recordError(gitError.associatedValue())
+                } else {
+                    GitStatusIndicator.recordError(error.localizedDescription)
+                }
+            }
+        }
     }
 }

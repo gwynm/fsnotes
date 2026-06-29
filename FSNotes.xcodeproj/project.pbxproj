@@ -220,6 +220,8 @@
 		48BEA1E16CCED6900AD756F7 /* Pods_FSNotes_iOS_Share_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99068B82274CF88F23C4761D /* Pods_FSNotes_iOS_Share_Extension.framework */; };
 		8F7136EE23490CBF004DFA6E /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7136ED23490CBF004DFA6E /* Markdown.swift */; };
 		8F7136F023490CBF004DFA6E /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7136ED23490CBF004DFA6E /* Markdown.swift */; };
+		A0781CA02F6737B100918C07 /* SFTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0781C9F2F6737B100918C07 /* SFTPViewController.swift */; };
+		A0781CA22F6737D100918C07 /* SFTPUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0781CA12F6737D100918C07 /* SFTPUploader.swift */; };
 		BE957A4A1B908EC91BECB3D3 /* Pods_FSNotes__iCloud_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6066605B9BAF43A4BF3B60C1 /* Pods_FSNotes__iCloud_.framework */; };
 		CE3427A778205E1713A014B9 /* Pods_FSNotes_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85B72F46887638CA9CC70D39 /* Pods_FSNotes_iOS.framework */; };
 		D4DB932C9F51CAE71393A28B /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F616385FF783029192B97DF6 /* Pods_FSNotes.framework */; };
@@ -358,6 +360,9 @@
 		D7315ED2215ED15500AB49D4 /* SidebarSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */; };
 		D7315ED3215ED15500AB49D4 /* SidebarSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */; };
 		D7315ED5215ED95600AB49D4 /* NSAppearance+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */; };
+		DCONT0010000000000000002 /* ContentsSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCONT0010000000000000001 /* ContentsSplitView.swift */; };
+		DCONT0020000000000000002 /* ContentsOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCONT0020000000000000001 /* ContentsOutlineView.swift */; };
+		DHEAD0010000000000000002 /* HeadingParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DHEAD0010000000000000001 /* HeadingParser.swift */; };
 		D7315ED6215ED95600AB49D4 /* NSAppearance+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */; };
 		D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
 		D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BC1F2EF66000173215 /* NoteCellView.swift */; };
@@ -565,6 +570,12 @@
 		D785805C27A3483B000C1BAF /* FolderPopoverActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D785805B27A3483B000C1BAF /* FolderPopoverActions.swift */; };
 		D78678CB2093AE10001A6620 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
 		D78678CC2093AE10001A6620 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
+		D787740A2FD41C5D00CF33BD /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78774092FD41C5D00CF33BD /* Json.swift */; };
+		D787740B2FD41C5D00CF33BD /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78774092FD41C5D00CF33BD /* Json.swift */; };
+		D787740C2FD41C5D00CF33BD /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78774092FD41C5D00CF33BD /* Json.swift */; };
+		D787740E2FD41C6800CF33BD /* Xml.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787740D2FD41C6800CF33BD /* Xml.swift */; };
+		D787740F2FD41C6800CF33BD /* Xml.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787740D2FD41C6800CF33BD /* Xml.swift */; };
+		D78774102FD41C6800CF33BD /* Xml.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787740D2FD41C6800CF33BD /* Xml.swift */; };
 		D792297521A845B4005F468F /* ProjectSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792297421A845B4005F468F /* ProjectSettingsViewController.swift */; };
 		D792297621A845B4005F468F /* ProjectSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792297421A845B4005F468F /* ProjectSettingsViewController.swift */; };
 		D792DD8227A6C980006ADC01 /* FSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792DD8127A6C980006ADC01 /* FSParser.swift */; };
@@ -595,6 +606,7 @@
 		D79F92121FA8B9E2008C297E /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
 		D79FE8A21F77D04A00113CFD /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A01F77D04A00113CFD /* Note.swift */; };
 		D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A415131F2FBDA00099B82C /* NotesTableView.swift */; };
+		GITSTAT02000000000000001 /* GitStatusIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = GITSTAT01000000000000001 /* GitStatusIndicator.swift */; };
 		D7A549C324DD9D3400537544 /* SettingsEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A549C224DD9D3400537544 /* SettingsEditorViewController.swift */; };
 		D7A65C5920F11C38003E5ADC /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7A65C5A20F11C38003E5ADC /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
@@ -1008,6 +1020,8 @@
 		9381D32FA909CAB6102C4A5C /* Pods-FSNotes (Notarized).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (Notarized).debug.xcconfig"; path = "Target Support Files/Pods-FSNotes (Notarized)/Pods-FSNotes (Notarized).debug.xcconfig"; sourceTree = "<group>"; };
 		99068B82274CF88F23C4761D /* Pods_FSNotes_iOS_Share_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes_iOS_Share_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EA62EEDB6BE9BF8727E66E0 /* Pods-FSNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.release.xcconfig"; path = "Target Support Files/Pods-FSNotes/Pods-FSNotes.release.xcconfig"; sourceTree = "<group>"; };
+		A0781C9F2F6737B100918C07 /* SFTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFTPViewController.swift; sourceTree = "<group>"; };
+		A0781CA12F6737D100918C07 /* SFTPUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFTPUploader.swift; sourceTree = "<group>"; };
 		A0C1E679E6D0B408CAC6372D /* Pods-FSNotesCore macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore macOS.release.xcconfig"; path = "Target Support Files/Pods-FSNotesCore macOS/Pods-FSNotesCore macOS.release.xcconfig"; sourceTree = "<group>"; };
 		B3A8E91DD978BBA557F778F9 /* Pods_FSNotesCore_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotesCore_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1E2B9BF60C418804784CC3B /* Pods-FSNotes (Notarized).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (Notarized).release.xcconfig"; path = "Target Support Files/Pods-FSNotes (Notarized)/Pods-FSNotes (Notarized).release.xcconfig"; sourceTree = "<group>"; };
@@ -1054,6 +1068,9 @@
 		D7315ECE215ECF3000AB49D4 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSplitView.swift; sourceTree = "<group>"; };
 		D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAppearance+.swift"; sourceTree = "<group>"; };
+		DCONT0010000000000000001 /* ContentsSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsSplitView.swift; sourceTree = "<group>"; };
+		DCONT0020000000000000001 /* ContentsOutlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsOutlineView.swift; sourceTree = "<group>"; };
+		DHEAD0010000000000000001 /* HeadingParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingParser.swift; sourceTree = "<group>"; };
 		D735E5BC1F2EF66000173215 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
 		D735E5BE1F2F001500173215 /* NoteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteRowView.swift; sourceTree = "<group>"; };
 		D73673A720D10CF2000BA61D /* CloudDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDriveManager.swift; sourceTree = "<group>"; };
@@ -1168,6 +1185,8 @@
 		D783B504208A1BFD00328A41 /* EditorSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSplitView.swift; sourceTree = "<group>"; };
 		D785805B27A3483B000C1BAF /* FolderPopoverActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderPopoverActions.swift; sourceTree = "<group>"; };
 		D78678CA2093AE10001A6620 /* UndoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoData.swift; sourceTree = "<group>"; };
+		D78774092FD41C5D00CF33BD /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
+		D787740D2FD41C6800CF33BD /* Xml.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Xml.swift; sourceTree = "<group>"; };
 		D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "FSNotes (CloudKit).entitlements"; sourceTree = "<group>"; };
 		D792297421A845B4005F468F /* ProjectSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSettingsViewController.swift; sourceTree = "<group>"; };
 		D792DD8127A6C980006ADC01 /* FSParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSParser.swift; sourceTree = "<group>"; };
@@ -1183,6 +1202,7 @@
 		D79C26242872384C00CB70E6 /* EditorViewController+Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditorViewController+Sharing.swift"; sourceTree = "<group>"; };
 		D79FE8A01F77D04A00113CFD /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		D7A415131F2FBDA00099B82C /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
+		GITSTAT01000000000000001 /* GitStatusIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitStatusIndicator.swift; sourceTree = "<group>"; };
 		D7A549C224DD9D3400537544 /* SettingsEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsEditorViewController.swift; sourceTree = "<group>"; };
 		D7A65C5820F11C38003E5ADC /* LanguageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageType.swift; sourceTree = "<group>"; };
 		D7A9C1D52910784400905619 /* Project+Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+Git.swift"; sourceTree = "<group>"; };
@@ -1338,6 +1358,7 @@
 				D70716DB2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift */,
 				D73673A720D10CF2000BA61D /* CloudDriveManager.swift */,
 				D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */,
+				A0781CA12F6737D100918C07 /* SFTPUploader.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1414,6 +1435,8 @@
 				11D943212E643F3B0010CC2B /* Php.swift */,
 				11D9431D2E643F1F0010CC2B /* Swift.swift */,
 				11D943192E643EF20010CC2B /* JavaScript.swift */,
+				D78774092FD41C5D00CF33BD /* Json.swift */,
+				D787740D2FD41C6800CF33BD /* Xml.swift */,
 			);
 			path = Languages;
 			sourceTree = "<group>";
@@ -1450,6 +1473,7 @@
 				D736DDAC27BAC7940012ED70 /* Note+History.swift */,
 				D71B9D852868BF7F00D2F323 /* TextStorageProcessor.swift */,
 				D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */,
+				DHEAD0010000000000000001 /* HeadingParser.swift */,
 				D777D7802009115C00D86B33 /* ImagesProcessor.swift */,
 				D72682A929BE8E1F00F6E961 /* RepositoryAction.swift */,
 				D7CC44C02A1E5E4F00743857 /* ViewController+WebApi.swift */,
@@ -1874,6 +1898,7 @@
 				D735E5BC1F2EF66000173215 /* NoteCellView.swift */,
 				D735E5BE1F2F001500173215 /* NoteRowView.swift */,
 				D7A415131F2FBDA00099B82C /* NotesTableView.swift */,
+				GITSTAT01000000000000001 /* GitStatusIndicator.swift */,
 				D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */,
 				D7508FC71F337E850047AB76 /* SearchTextField.swift */,
 				D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */,
@@ -1884,6 +1909,8 @@
 				D783B504208A1BFD00328A41 /* EditorSplitView.swift */,
 				D7DA9E1D21031901001CF0BE /* OutlineHeaderView.swift */,
 				D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */,
+				DCONT0010000000000000001 /* ContentsSplitView.swift */,
+				DCONT0020000000000000001 /* ContentsOutlineView.swift */,
 				D7315ECE215ECF3000AB49D4 /* EditorView.swift */,
 				D77CC040216A608500582B97 /* EditorScrollView.swift */,
 				D7D1DE67216D05A800AC1845 /* NameTextField.swift */,
@@ -1995,6 +2022,7 @@
 				D709C9E129AFD9E0006EF9A8 /* GitTableViewCell.swift */,
 				D7C33F6D29E09A690006C473 /* AppIconViewController.swift */,
 				D7CF7EAA29E2093C00FEC0C5 /* SecurityViewController.swift */,
+				A0781C9F2F6737B100918C07 /* SFTPViewController.swift */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -2671,6 +2699,7 @@
 				D7D9503F209D846E001FB60B /* SidebarTableCellView.swift in Sources */,
 				D7C9029523547A1E00A89BD8 /* FSTag.swift in Sources */,
 				D768D75A245E86690028F344 /* NSAttributedString+.swift in Sources */,
+				D787740F2FD41C6800CF33BD /* Xml.swift in Sources */,
 				D75A34E527D7CD440085438F /* SidebarViewController.swift in Sources */,
 				110BE0212EE8C53C00C5E456 /* TypeScript.swift in Sources */,
 				D714496220C72D3500D7AD46 /* UIImage+.swift in Sources */,
@@ -2729,6 +2758,7 @@
 				11F389562EEA10930008EC18 /* Mermaid.swift in Sources */,
 				D78115672153D4D9004FA1CA /* ProjectsViewController.swift in Sources */,
 				D7BDFE60201F677B00897A58 /* NoteType.swift in Sources */,
+				D787740A2FD41C5D00CF33BD /* Json.swift in Sources */,
 				D792DD9927A6D71C006ADC01 /* String+Punycode.swift in Sources */,
 				D709C9E229AFD9E0006EF9A8 /* GitTableViewCell.swift in Sources */,
 				11D6C0D32EE227F9006017F0 /* Java.swift in Sources */,
@@ -2793,12 +2823,14 @@
 				D7679389201F21F5000F7BBF /* AppDelegate.swift in Sources */,
 				D730BD46223510A900E69C93 /* KeychainConfiguration.swift in Sources */,
 				11D6C0E02EE22B77006017F0 /* Csharp.swift in Sources */,
+				A0781CA02F6737B100918C07 /* SFTPViewController.swift in Sources */,
 				D7BDFE70201F788D00897A58 /* NoteCellView.swift in Sources */,
 				D73794C123366F5200E75A28 /* ImageScrollView.swift in Sources */,
 				D73B3135298FBF4400F46144 /* GitViewController.swift in Sources */,
 				D730BD5C223BFEB200E69C93 /* RuntimeError.swift in Sources */,
 				D7B2B6EA245EEA620084B78D /* LanguageType.swift in Sources */,
 				D70E9E142901AEEB00A3C634 /* StatusIterator.swift in Sources */,
+				A0781CA22F6737D100918C07 /* SFTPUploader.swift in Sources */,
 				111013152EC8F1B600B6CF1B /* ImagePreviewViewController.swift in Sources */,
 				11D702AC2E5B8E0C004DBAEC /* HtmlExtractor.swift in Sources */,
 				11D6C0D92EE229E9006017F0 /* Go.swift in Sources */,
@@ -2823,6 +2855,9 @@
 				D7B3FE7121027A6D00764C39 /* UserDataService.swift in Sources */,
 				11F3F4872EDB0E4400435CBF /* DateFormatter+.swift in Sources */,
 				D7315ED2215ED15500AB49D4 /* SidebarSplitView.swift in Sources */,
+				DCONT0010000000000000002 /* ContentsSplitView.swift in Sources */,
+				DCONT0020000000000000002 /* ContentsOutlineView.swift in Sources */,
+				DHEAD0010000000000000002 /* HeadingParser.swift in Sources */,
 				11D6C0E72EE22C11006017F0 /* R.swift in Sources */,
 				11AF633E2E898435004E7157 /* Sql.swift in Sources */,
 				117C0E4D2EEDB9C30086419C /* EditTextView+Clicked.swift in Sources */,
@@ -2866,6 +2901,7 @@
 				D73BCC9B28EB5EC3008B3BBC /* ConfigManager.swift in Sources */,
 				D73BCCBF28EB5EC3008B3BBC /* FileHistoryIterator.swift in Sources */,
 				D7508FCE1F3438540047AB76 /* PrefsViewController.swift in Sources */,
+				D787740B2FD41C5D00CF33BD /* Json.swift in Sources */,
 				D792297521A845B4005F468F /* ProjectSettingsViewController.swift in Sources */,
 				D7315ED5215ED95600AB49D4 /* NSAppearance+.swift in Sources */,
 				D7DA9E2121033489001CF0BE /* NSMutableAttributedString+.swift in Sources */,
@@ -2967,6 +3003,7 @@
 				D73BCCCE28EB5EC4008B3BBC /* PasswordAuthentication.swift in Sources */,
 				D7679376201F0BFD000F7BBF /* SortBy.swift in Sources */,
 				D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */,
+				GITSTAT02000000000000001 /* GitStatusIndicator.swift in Sources */,
 				D7D7CD3A232774BC0016AC15 /* ViewController+Git.swift in Sources */,
 				D7BCF035296B0DAA00F72A4F /* AboutImageView.swift in Sources */,
 				D7013E0026C3B116006F58E3 /* NSColor+.swift in Sources */,
@@ -3035,6 +3072,7 @@
 				D7153E092285EC6100A2C20F /* TitleTextField.swift in Sources */,
 				D7D372F4207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
 				1161828D2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */,
+				D78774102FD41C6800CF33BD /* Xml.swift in Sources */,
 				110E40A02EA0150300C62F49 /* NSTextCheckingResult+.swift in Sources */,
 				11D6C0FF2EE22E4A006017F0 /* Scratch.swift in Sources */,
 				D73BCC9228EB5EC3008B3BBC /* Branches.swift in Sources */,
@@ -3100,6 +3138,7 @@
 				D73BCCC028EB5EC3008B3BBC /* FileHistoryIterator.swift in Sources */,
 				D79F92121FA8B9E2008C297E /* PreviewTextField.swift in Sources */,
 				D792297621A845B4005F468F /* ProjectSettingsViewController.swift in Sources */,
+				D787740C2FD41C5D00CF33BD /* Json.swift in Sources */,
 				D7315ED6215ED95600AB49D4 /* NSAppearance+.swift in Sources */,
 				D7DA9E2221033489001CF0BE /* NSMutableAttributedString+.swift in Sources */,
 				D73BCCE728EB5EC4008B3BBC /* Index+Files.swift in Sources */,
@@ -3269,6 +3308,7 @@
 				D7153E0A2285EC6100A2C20F /* TitleTextField.swift in Sources */,
 				D7D372F5207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
 				1161828E2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */,
+				D787740E2FD41C6800CF33BD /* Xml.swift in Sources */,
 				110E40A22EA0150300C62F49 /* NSTextCheckingResult+.swift in Sources */,
 				11D6C1012EE22E4A006017F0 /* Scratch.swift in Sources */,
 				D73BCC9328EB5EC3008B3BBC /* Branches.swift in Sources */,
@@ -3318,7 +3358,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 324;
+				CURRENT_PROJECT_VERSION = 332;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
@@ -3327,7 +3367,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 7.0.1;
+				MARKETING_VERSION = 7.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -3352,7 +3392,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 324;
+				CURRENT_PROJECT_VERSION = 332;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
@@ -3362,7 +3402,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 7.0.1;
+				MARKETING_VERSION = 7.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -3391,7 +3431,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 324;
+				CURRENT_PROJECT_VERSION = 333;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
@@ -3401,7 +3441,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.0.1;
+				MARKETING_VERSION = 7.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -3432,7 +3472,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 324;
+				CURRENT_PROJECT_VERSION = 333;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
@@ -3442,7 +3482,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.0.1;
+				MARKETING_VERSION = 7.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -3668,7 +3708,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 702;
+				CURRENT_PROJECT_VERSION = 710;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -3685,7 +3725,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
-				MARKETING_VERSION = 7.0.0;
+				MARKETING_VERSION = 7.1.5;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
@@ -3708,7 +3748,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 702;
+				CURRENT_PROJECT_VERSION = 710;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -3726,7 +3766,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
-				MARKETING_VERSION = 7.0.0;
+				MARKETING_VERSION = 7.1.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;

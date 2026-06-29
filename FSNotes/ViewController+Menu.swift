@@ -246,6 +246,15 @@ extension ViewController {
             if let note = notes?.first {
                 return (isFirstResponder || isOpenedWindow || isFirstEditor) && isOne && !note.isEncrypted() && (note.uploadPath != nil || note.apiId != nil)
             }
+        case "\(menuId).openOnGithub":
+            menuItem.title = NSLocalizedString("Open On Github", comment: "File Menu")
+            if let note = notes?.first,
+               let gitProject = note.project.getGitProject(),
+               let origin = gitProject.getGitOrigin(),
+               origin.contains("github.com") {
+                return isOne && (isFirstResponder || isOpenedWindow || isFirstEditor)
+            }
+            return false
         default:
             return false
         }

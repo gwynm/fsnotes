@@ -15,9 +15,8 @@ import SSZipArchive
 class NotesTableView: UITableView,
     UITableViewDelegate,
     UITableViewDataSource,
-    UITableViewDragDelegate,
-    SwipeTableViewCellDelegate {
-
+    UITableViewDragDelegate {
+    
     var notes = [Note]()
     var viewDelegate: ViewController? = nil
     public var selectedIndexPaths: [IndexPath]?
@@ -74,7 +73,6 @@ class NotesTableView: UITableView,
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NoteCellView
 
         cell.imageKeys = []
-        cell.delegate = self
 
         guard self.notes.indices.contains(indexPath.row) else { return cell }
 
@@ -178,66 +176,58 @@ class NotesTableView: UITableView,
         return true
     }
 
-    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
-        var options = SwipeOptions()
-        options.transitionStyle = .border
-        options.expansionStyle = .selection
-        return options
-    }
-
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard let vc = viewDelegate,
-            !UserDefaultsManagement.sidebarIsOpened,
-            orientation == .right
+              !UserDefaultsManagement.sidebarIsOpened
         else { return nil }
 
         let note = self.notes[indexPath.row]
 
-        let deleteTitle = NSLocalizedString("Delete", comment: "Table row action")
-        let deleteAction = SwipeAction(style: .destructive, title: deleteTitle) { action, indexPath in
+        // Delete
+        let deleteAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Delete", comment: "Table row action")) { [weak self] _, _, completion in
+            guard let self = self else { return }
             self.viewDelegate?.sidebarTableView.removeTags(in: [note])
             let isTrashed = note.isTrash()
-
             note.remove()
             self.removeRows(notes: [note])
-
             if note.isEmpty() || isTrashed {
                 vc.storage.removeBy(note: note)
             }
+            completion(true)
         }
         deleteAction.image = UIImage(systemName: "trash")
 
+        // Pin / Unpin
         let pinTitle = note.isPinned
             ? NSLocalizedString("Unpin", comment: "Table row action")
             : NSLocalizedString("Pin", comment: "Table row action")
-
-        let pinAction = SwipeAction(style: .default, title: pinTitle) { action, indexPath in
-            guard let cell = self.cellForRow(at: indexPath) as? NoteCellView else { return }
-
+        let pinAction = UIContextualAction(style: .normal, title: pinTitle) { [weak self] _, _, completion in
+            guard let self = self,
+                  let cell = self.cellForRow(at: indexPath) as? NoteCellView else {
+                completion(false)
+                return
+            }
             note.togglePin()
             cell.configure(note: note)
-            
-            let resorted = vc.storage.sortNotes(noteList: self.notes)
-            guard let newIndex = resorted.firstIndex(of: note) else { return }
 
+            let resorted = vc.storage.sortNotes(noteList: self.notes)
+            guard let newIndex = resorted.firstIndex(of: note) else {
+                completion(false)
+                return
+            }
             let newIndexPath = IndexPath(row: newIndex, section: 0)
             self.moveRow(at: indexPath, to: newIndexPath)
             self.notes = resorted
-
             self.reloadRows(at: [newIndexPath], with: .automatic)
             self.reloadRows(at: [indexPath], with: .automatic)
+            completion(true)
         }
         pinAction.image = note.isPinned ? UIImage(systemName: "pin.slash") : UIImage(systemName: "pin")
-        pinAction.backgroundColor = UIColor(red:0.24, green:0.59, blue:0.94, alpha:1.0)
+        pinAction.backgroundColor = UIColor(red: 0.24, green: 0.59, blue: 0.94, alpha: 1.0)
 
-        let moreTitle = NSLocalizedString("More", comment: "Table row action")
-        let moreAction = SwipeAction(style: .default, title: moreTitle) { action, indexPath in
-            self.actionsSheet(notes: [note], showAll: true, presentController: self.viewDelegate!)
-        }
-        moreAction.image = UIImage(systemName: "ellipsis.circle")
-        moreAction.backgroundColor = UIColor(red:0.13, green:0.69, blue:0.58, alpha:1.0)
-
-        return [deleteAction, pinAction, moreAction]
+        let config = UISwipeActionsConfiguration(actions: [deleteAction, pinAction])
+        config.performsFirstActionWithFullSwipe = true
+        return config
     }
 
     public func turnOffEditing() {
@@ -350,7 +340,7 @@ class NotesTableView: UITableView,
         actions.append(UIAction(title: duplicateTitle, image: duplicateImage, identifier: UIAction.Identifier("duplicate"), handler: handler))
 
         let moveTitle = NSLocalizedString("Move", comment: "")
-        let moveImage = UIImage(systemName: "move.3d")
+        let moveImage = UIImage(systemName: "folder")
         actions.append(UIAction(title: moveTitle, image: moveImage, identifier: UIAction.Identifier("move"), handler: handler))
 
 
@@ -403,15 +393,17 @@ class NotesTableView: UITableView,
         let shareImage = UIImage(systemName: "square.and.arrow.up")
         actions.append(UIAction(title: shareTitle, image: shareImage, identifier: UIAction.Identifier("share"), handler: handler))
 
+        let isPublished = note.apiId != nil || (UserDefaultsManagement.customWebServer && note.uploadPath != nil)
+
         var shareWebTitle = NSLocalizedString("Create Web Page", comment: "")
-        if note.apiId != nil {
+        if isPublished {
             shareWebTitle = NSLocalizedString("Update Web Page", comment: "")
         }
 
         let shareWebImage = UIImage(systemName: "newspaper")
         actions.append(UIAction(title: shareWebTitle, image: shareWebImage, identifier: UIAction.Identifier("shareWeb"), handler: handler))
 
-        if note.apiId != nil {
+        if isPublished {
             let deleteWebTitle = NSLocalizedString("Delete Web Page", comment: "")
             let deleteWebImage = UIImage(systemName: "newspaper.fill")
             actions.append(UIAction(title: deleteWebTitle, image: deleteWebImage, identifier: UIAction.Identifier("deleteWeb"), handler: handler))
@@ -1060,6 +1052,23 @@ class NotesTableView: UITableView,
     }
 
     public func shareWebAction(note: Note) {
+        if UserDefaultsManagement.customWebServer {
+            showLoader()
+            SFTPUploader.upload(note: note) { result in
+                self.hideLoader()
+                self.reloadRowForce(note: note)
+                UIApplication.getEVC().configureNavMenu()
+
+                switch result {
+                case .success(let url):
+                    UIApplication.shared.open(url)
+                case .failure(let error):
+                    self.showSFTPError(error)
+                }
+            }
+            return
+        }
+
         UIApplication.getVC().createAPI(note: note, completion: { url in
             DispatchQueue.main.async {
                 self.reloadRowForce(note: note)
@@ -1074,6 +1083,20 @@ class NotesTableView: UITableView,
     }
 
     public func deleteWebAction(note: Note) {
+        if UserDefaultsManagement.customWebServer {
+            showLoader()
+            SFTPUploader.remove(note: note) { error in
+                self.hideLoader()
+                self.reloadRowForce(note: note)
+                UIApplication.getEVC().configureNavMenu()
+
+                if let error = error {
+                    self.showSFTPError(error)
+                }
+            }
+            return
+        }
+
         UIApplication.getVC().deleteAPI(note: note, completion: {
             DispatchQueue.main.async {
                 self.reloadRowForce(note: note)
@@ -1081,6 +1104,19 @@ class NotesTableView: UITableView,
                 UIApplication.getEVC().configureNavMenu()
             }
         })
+    }
+
+    private func showSFTPError(_ error: Error) {
+        DispatchQueue.main.async {
+            guard let vc = UIApplication.getVC().presentedViewController ?? UIApplication.getVC() as UIViewController? else { return }
+            let alert = UIAlertController(
+                title: NSLocalizedString("SFTP Error", comment: ""),
+                message: error.localizedDescription,
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            vc.present(alert, animated: true)
+        }
     }
 
     public func moveRowUp(note: Note) {

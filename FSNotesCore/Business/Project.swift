@@ -307,10 +307,10 @@ public class Project: NSObject {
         } else if !cacheOnly {
             notes = fetchNotes()
             
-            print("From disk: \(notes.count)")
+            print("From disk: \(notes.count), lbl: \(label)")
         }
-
-        loadPins(for: notes)
+        
+        storage.loadPins(notes: notes)
 
         for note in notes {
             storage.add(note)
@@ -357,22 +357,6 @@ public class Project: NSObject {
         }
     }
 
-    public func loadPins(for notes: [Note]) {
-    #if CLOUD_RELATED_BLOCK
-        for note in notes {
-            note.isPinned = false
-        }
-        
-        let store = NSUbiquitousKeyValueStore.default
-        let names = store.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] ?? []
-        let pinned = Set(names)
-        
-        for note in notes {
-            note.isPinned = pinned.contains(note.getRelatedPath())
-        }
-    #endif
-    }
-    
     func fileExist(fileName: String, ext: String) -> Bool {        
         let fileURL = url.appendingPathComponent(fileName + "." + ext)
 
@@ -785,7 +769,7 @@ public class Project: NSObject {
 
         let results = checkFSAndMemoryDiff()
 
-        print("Cache diff found: removed - \(results.0.count), added - \(results.1.count), modified - \(results.2.count).")
+        print("Cache diff found: removed - \(results.0.count), added - \(results.1.count), modified - \(results.2.count), lbl: \(label)")
         
         return results
     }

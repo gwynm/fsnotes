@@ -104,6 +104,12 @@
             "state" : "translated",
             "value" : "添加"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增"
+          }
         }
       }
     },
@@ -211,6 +217,12 @@
             "state" : "translated",
             "value" : "附件存储..."
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "附件存檔"
+          }
         }
       }
     },
@@ -316,6 +328,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您真的要删除 %d 个标签吗？此操作无法撤消。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確定要刪除 %d 個標籤嗎？此動作無法復原"
           }
         }
       }
@@ -423,6 +441,12 @@
             "state" : "translated",
             "value" : "确定要永久删除%d个笔记？此操作无法恢复！"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確定要永久刪除 %d 個筆記嗎？此操作無法復原！"
+          }
         }
       }
     },
@@ -528,6 +552,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您确定要删除项目\"%@\"和它下面的所有文件吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您確定要刪除項目\"%@\"和它下面的所有檔案嗎？"
           }
         }
       }
@@ -636,6 +666,12 @@
             "state" : "translated",
             "value" : "提交git的存储库中的所有文件"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將所有檔案提交到 Git 儲存庫"
+          }
         }
       }
     },
@@ -739,6 +775,12 @@
           }
         },
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "取消"
@@ -851,6 +893,12 @@
             "state" : "translated",
             "value" : "更改创建日期"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "變更建立日期"
+          }
         }
       }
     },
@@ -958,6 +1006,12 @@
             "state" : "translated",
             "value" : "变更建立日期"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "變更建立日期"
+          }
         }
       }
     },
@@ -1064,6 +1118,12 @@
             "state" : "translated",
             "value" : "清除"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除"
+          }
         }
       }
     },
@@ -1091,6 +1151,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Буфер обміну успішно збережено"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剪貼簿已成功儲存"
           }
         }
       }
@@ -1199,6 +1265,12 @@
             "state" : "translated",
             "value" : "关闭"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關閉"
+          }
         }
       }
     },
@@ -1306,6 +1378,12 @@
             "state" : "translated",
             "value" : "Commit & Push “%@”"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "送出並上傳“%@”"
+          }
         }
       }
     },
@@ -1411,6 +1489,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "提交消息:"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "送出訊息"
           }
         }
       }
@@ -1518,8 +1602,17 @@
             "state" : "translated",
             "value" : "连接建立成功🤟"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連線已成功建立🤟"
+          }
         }
       }
+    },
+    "Contents" : {
+      "comment" : "Contents panel header"
     },
     "Convert to Plain" : {
       "localizations" : {
@@ -1623,6 +1716,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "转换成纯文本"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轉換為純文字"
           }
         }
       }
@@ -1730,6 +1829,12 @@
             "state" : "translated",
             "value" : "转换成 TextBundle"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轉換為TextBundle"
+          }
         }
       }
     },
@@ -1835,6 +1940,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "拷贝HTML"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製HTML"
           }
         }
       }
@@ -1942,6 +2053,12 @@
             "state" : "translated",
             "value" : "拷贝链接"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製連結"
+          }
         }
       }
     },
@@ -2047,6 +2164,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "拷贝纯文本"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製純文字"
           }
         }
       }
@@ -2155,6 +2278,12 @@
             "state" : "translated",
             "value" : "拷贝标题"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製標題"
+          }
         }
       }
     },
@@ -2262,6 +2391,12 @@
             "state" : "translated",
             "value" : "拷贝URL"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製 URL"
+          }
         }
       }
     },
@@ -2290,6 +2425,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Створити директорію"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建立資料夾"
           }
         }
       }
@@ -2397,6 +2538,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "创建为网页URL"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建立網頁"
           }
         }
       }
@@ -2506,6 +2653,12 @@
             "state" : "translated",
             "value" : "创建日期:"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建立日期："
+          }
         }
       }
     },
@@ -2612,6 +2765,12 @@
             "state" : "translated",
             "value" : "当前密码与钥匙串中的密码不匹配"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前密碼與鑰匙圈中的密碼不符"
+          }
         }
       }
     },
@@ -2715,6 +2874,12 @@
           }
         },
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解密"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "解密"
@@ -2826,6 +2991,12 @@
             "state" : "translated",
             "value" : "解密文件夹"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解密資料夾"
+          }
         }
       }
     },
@@ -2931,6 +3102,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "默认存储路径不允许和 Git 路径相同。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預設儲存路徑不應與 Git 路徑相同。"
           }
         }
       }
@@ -3039,6 +3216,12 @@
             "state" : "translated",
             "value" : "删除"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除"
+          }
         }
       }
     },
@@ -3145,6 +3328,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除文件夹"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除資料夾"
           }
         }
       }
@@ -3253,6 +3442,12 @@
             "state" : "translated",
             "value" : "删除标签"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除標籤"
+          }
         }
       }
     },
@@ -3359,6 +3554,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除网页"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除網頁"
           }
         }
       }
@@ -3467,6 +3668,12 @@
             "state" : "translated",
             "value" : "是否要强制检查?"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您確定要強制切換嗎？"
+          }
         }
       }
     },
@@ -3572,6 +3779,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您想将当前笔记移动到目标处吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您要將目前的筆記移動到新目的地嗎？"
           }
         }
       }
@@ -3679,8 +3892,17 @@
             "state" : "translated",
             "value" : "文档"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件"
+          }
         }
       }
+    },
+    "Don't select this if any of your Projects are stored in iCloud. iCloud's sync causes corruption when used on folders containing .git folders. Instead, select 'Central location' and ensure that location is not in iCloud." : {
+
     },
     "Done" : {
       "localizations" : {
@@ -3706,6 +3928,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Готово"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成"
           }
         }
       }
@@ -3814,6 +4042,12 @@
             "state" : "translated",
             "value" : "生成副本"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "製作複本"
+          }
         }
       }
     },
@@ -3919,6 +4153,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "编辑链接…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯連結…"
           }
         }
       }
@@ -4026,6 +4266,12 @@
             "state" : "translated",
             "value" : "清空回收站"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清空垃圾桶"
+          }
         }
       }
     },
@@ -4131,6 +4377,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "空密码"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "密碼為空"
           }
         }
       }
@@ -4238,6 +4490,12 @@
             "state" : "translated",
             "value" : "输入加密密码:"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請輸入加密密碼："
+          }
         }
       }
     },
@@ -4343,6 +4601,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "输入管理员密码"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請輸入主密碼"
           }
         }
       }
@@ -4450,6 +4714,12 @@
             "state" : "translated",
             "value" : "文件夹名称 '%@' 已存在"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名為'%@' 的資料夾已存在"
+          }
         }
       }
     },
@@ -4555,6 +4825,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "字体"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "字體"
           }
         }
       }
@@ -4663,6 +4939,12 @@
             "state" : "translated",
             "value" : "强制删除"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "強制刪除"
+          }
         }
       }
     },
@@ -4769,6 +5051,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes [编辑]"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes[編輯]"
           }
         }
       }
@@ -4877,6 +5165,12 @@
             "state" : "translated",
             "value" : "FSNotes [预览]"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes[預覽]"
+          }
         }
       }
     },
@@ -4983,6 +5277,12 @@
             "state" : "translated",
             "value" : "git error"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "git 錯誤"
+          }
         }
       }
     },
@@ -5088,6 +5388,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git 错误"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "git 錯誤"
           }
         }
       }
@@ -5196,6 +5502,12 @@
             "state" : "translated",
             "value" : "Git 推送错误"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git 推送錯誤"
+          }
         }
       }
     },
@@ -5303,8 +5615,20 @@
             "state" : "translated",
             "value" : "Git 存储库已存在，请将其删除并再次克隆??"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git 儲存庫已存在，是否刪除並重新複製？"
+          }
         }
       }
+    },
+    "Hide Contents" : {
+
+    },
+    "Hide Footer" : {
+
     },
     "Hide Note List" : {
       "localizations" : {
@@ -5408,6 +5732,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隐藏笔记列表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隱藏筆記列表"
           }
         }
       }
@@ -5514,6 +5844,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隐藏边栏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隱藏側邊欄"
           }
         }
       }
@@ -5622,6 +5958,12 @@
             "state" : "translated",
             "value" : "笔记历史版本"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "歷史記錄"
+          }
         }
       }
     },
@@ -5728,8 +6070,17 @@
             "state" : "translated",
             "value" : "iCloud 云盘"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 雲碟"
+          }
         }
       }
+    },
+    "iCloud Warning" : {
+
     },
     "Import" : {
       "comment" : "File Menu",
@@ -5834,6 +6185,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "导入"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "匯入"
           }
         }
       }
@@ -5940,6 +6297,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "收集箱"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收件匣 "
           }
         }
       }
@@ -6048,6 +6411,12 @@
             "state" : "translated",
             "value" : "Libgit2 错误"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Libgit2 錯誤"
+          }
         }
       }
     },
@@ -6154,6 +6523,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Libgit2 错误: (code)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Libgit2 錯誤：(代碼)"
           }
         }
       }
@@ -6262,6 +6637,12 @@
             "state" : "translated",
             "value" : "链接"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連結"
+          }
         }
       }
     },
@@ -6369,6 +6750,12 @@
             "state" : "translated",
             "value" : "上锁"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎖定"
+          }
         }
       }
     },
@@ -6474,6 +6861,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "锁定所有加密的笔记"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎖定所有已加密項目"
           }
         }
       }
@@ -6582,6 +6975,12 @@
             "state" : "translated",
             "value" : "锁定文件夹"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎖定資料夾"
+          }
         }
       }
     },
@@ -6687,6 +7086,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "锁定"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎖定"
           }
         }
       }
@@ -6794,6 +7199,12 @@
             "state" : "translated",
             "value" : "建立链接"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建立連結"
+          }
         }
       }
     },
@@ -6899,6 +7310,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "管理员密码："
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主密碼："
           }
         }
       }
@@ -7007,6 +7424,12 @@
             "state" : "translated",
             "value" : "移动"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動"
+          }
         }
       }
     },
@@ -7112,6 +7535,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移动错误"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動錯誤"
           }
         }
       }
@@ -7220,6 +7649,12 @@
             "state" : "translated",
             "value" : "新建"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增"
+          }
         }
       }
     },
@@ -7326,6 +7761,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新建文件夹"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增資料夾"
           }
         }
       }
@@ -7434,6 +7875,12 @@
             "state" : "translated",
             "value" : "创建文件夹"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增資料夾"
+          }
         }
       }
     },
@@ -7540,6 +7987,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新建笔记"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增筆記"
           }
         }
       }
@@ -7648,6 +8101,12 @@
             "state" : "translated",
             "value" : "在新窗口中新建笔记"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在新視窗中新增筆記"
+          }
         }
       }
     },
@@ -7754,6 +8213,12 @@
             "state" : "translated",
             "value" : "新建项目"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增專案"
+          }
         }
       }
     },
@@ -7856,6 +8321,12 @@
           }
         },
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "否"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "否"
@@ -7966,6 +8437,12 @@
             "state" : "translated",
             "value" : "无选择"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取任何項目"
+          }
         }
       }
     },
@@ -8071,6 +8548,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "名称为 \"%@\" 的笔记已存在于所选目录中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所選目錄中已存在名為\"%@\" 的筆記。"
           }
         }
       }
@@ -8179,6 +8662,12 @@
             "state" : "translated",
             "value" : "所有笔记"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "筆記"
+          }
         }
       }
     },
@@ -8284,6 +8773,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "好的"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確定"
           }
         }
       }
@@ -8392,6 +8887,12 @@
             "state" : "translated",
             "value" : "打开外部"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟外部連結"
+          }
         }
       }
     },
@@ -8498,6 +8999,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打开笔记"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟筆記"
           }
         }
       }
@@ -8606,6 +9113,12 @@
             "state" : "translated",
             "value" : "在新窗口中打开笔记"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在新視窗中開啟筆記"
+          }
         }
       }
     },
@@ -8711,6 +9224,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "否则，您的笔记数据库将在以下位置可用："
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "否則，您的筆記資料庫將位於："
           }
         }
       }
@@ -8818,6 +9337,12 @@
             "state" : "translated",
             "value" : "密码:"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "密碼："
+          }
         }
       }
     },
@@ -8923,6 +9448,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "路径不可用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "路徑無法使用"
           }
         }
       }
@@ -9031,6 +9562,12 @@
             "state" : "translated",
             "value" : "置顶"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "釘選"
+          }
         }
       }
     },
@@ -9138,6 +9675,12 @@
             "state" : "translated",
             "value" : "请输入图片标题："
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請輸入圖片標題："
+          }
         }
       }
     },
@@ -9243,6 +9786,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "请输入当前笔记的密码"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請輸入目前筆記的密碼"
           }
         }
       }
@@ -9350,6 +9899,12 @@
             "state" : "translated",
             "value" : "请输入项目名称："
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請輸入專案名稱："
+          }
         }
       }
     },
@@ -9455,6 +10010,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "请输入标签名称："
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請輸入標籤名稱："
           }
         }
       }
@@ -9564,6 +10125,12 @@
             "state" : "translated",
             "value" : "请输入标签（使用英文逗号分隔）："
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請輸入標籤（以逗號分隔）："
+          }
         }
       }
     },
@@ -9669,6 +10236,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Please init git repository before (Preferences -> Git -> Init/commit)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請先初始化 Git 儲存庫 (偏好設定 -> Git -> 初始化/提交)"
           }
         }
       }
@@ -9776,6 +10349,12 @@
             "state" : "translated",
             "value" : "请选择私钥和公钥"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請選擇私鑰和公鑰"
+          }
         }
       }
     },
@@ -9882,6 +10461,12 @@
             "state" : "translated",
             "value" : "请选择私钥"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請選擇私鑰"
+          }
         }
       }
     },
@@ -9987,6 +10572,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "请再试一次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請再試一次 "
           }
         }
       }
@@ -10096,6 +10687,12 @@
             "state" : "translated",
             "value" : "偏好设置"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偏好設定"
+          }
         }
       }
     },
@@ -10203,6 +10800,12 @@
             "state" : "translated",
             "value" : "打印"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "列印"
+          }
         }
       }
     },
@@ -10308,6 +10911,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "退出FSNotes"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結束 FSNotes"
           }
         }
       }
@@ -10415,6 +11024,12 @@
             "state" : "translated",
             "value" : "最近"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近項目"
+          }
         }
       }
     },
@@ -10521,6 +11136,12 @@
             "state" : "translated",
             "value" : "最近搜索"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近搜尋紀錄"
+          }
         }
       }
     },
@@ -10624,6 +11245,12 @@
           }
         },
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除"
@@ -10734,6 +11361,12 @@
             "state" : "translated",
             "value" : "删除链接"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除連結"
+          }
         }
       }
     },
@@ -10840,6 +11473,12 @@
             "state" : "translated",
             "value" : "移除笔记"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除筆記"
+          }
         }
       }
     },
@@ -10945,6 +11584,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除标签"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除標籤"
           }
         }
       }
@@ -11053,6 +11698,12 @@
             "state" : "translated",
             "value" : "重命名"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新命名"
+          }
         }
       }
     },
@@ -11159,6 +11810,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重命名文件夹"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新命名資料夾"
           }
         }
       }
@@ -11267,6 +11924,12 @@
             "state" : "translated",
             "value" : "重命名标签"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新命名標籤"
+          }
         }
       }
     },
@@ -11373,6 +12036,12 @@
             "state" : "translated",
             "value" : "重命名标签"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新命名標籤"
+          }
         }
       }
     },
@@ -11478,6 +12147,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Repository not found"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找不到儲存庫"
           }
         }
       }
@@ -11586,6 +12261,12 @@
             "state" : "translated",
             "value" : "在Finder中显示"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示於 Finder"
+          }
         }
       }
     },
@@ -11613,6 +12294,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Пошук"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋"
           }
         }
       }
@@ -11719,6 +12406,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "搜索或创建（按下回车即可创建）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋並建立"
           }
         }
       }
@@ -11827,6 +12520,12 @@
             "state" : "translated",
             "value" : "搜索或创建（按下回车即可创建）"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋並建立"
+          }
         }
       }
     },
@@ -11933,8 +12632,20 @@
             "state" : "translated",
             "value" : "偏好设置"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定"
+          }
         }
       }
+    },
+    "Show Contents" : {
+
+    },
+    "Show Footer" : {
+
     },
     "Show in Finder" : {
       "extractionState" : "manual",
@@ -12039,6 +12750,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在访达中显示"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Finder中顯示"
           }
         }
       }
@@ -12145,6 +12862,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "显示笔记列表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示筆記列表"
           }
         }
       }
@@ -12253,6 +12976,12 @@
             "state" : "translated",
             "value" : "显示视图选项"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示選項"
+          }
         }
       }
     },
@@ -12358,6 +13087,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "显示侧边栏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示側邊欄"
           }
         }
       }
@@ -12466,6 +13201,12 @@
             "state" : "translated",
             "value" : "显示视图选项"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示方式選項"
+          }
         }
       }
     },
@@ -12569,6 +13310,12 @@
           }
         },
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "排序方式"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "排序方式"
@@ -12679,6 +13426,12 @@
             "state" : "translated",
             "value" : "SSH error"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SSH 錯誤"
+          }
         }
       }
     },
@@ -12785,6 +13538,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "标签"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標籤"
           }
         }
       }
@@ -12893,6 +13652,12 @@
             "state" : "translated",
             "value" : "此操作无法撤消。"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此動作無法復原。"
+          }
         }
       }
     },
@@ -12998,6 +13763,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "待办事项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待辦事項"
           }
         }
       }
@@ -13106,6 +13877,12 @@
             "state" : "translated",
             "value" : "切换预览"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切換預覽"
+          }
         }
       }
     },
@@ -13213,6 +13990,12 @@
             "state" : "translated",
             "value" : "回收站"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "垃圾桶"
+          }
         }
       }
     },
@@ -13241,6 +14024,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Від'єднати зовнішню папку"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解除外部資料夾連結"
           }
         }
       }
@@ -13349,6 +14138,12 @@
             "state" : "translated",
             "value" : "解锁"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解鎖"
+          }
         }
       }
     },
@@ -13454,6 +14249,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "解锁文件夹"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解鎖資料夾"
           }
         }
       }
@@ -13562,6 +14363,12 @@
             "state" : "translated",
             "value" : "取消置顶"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消釘選"
+          }
         }
       }
     },
@@ -13667,6 +14474,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "无标签"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未標籤 "
           }
         }
       }
@@ -13776,6 +14589,12 @@
             "state" : "translated",
             "value" : "无标题"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未命名筆記"
+          }
         }
       }
     },
@@ -13883,6 +14702,12 @@
             "state" : "translated",
             "value" : "更新网页"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新網頁"
+          }
         }
       }
     },
@@ -13988,6 +14813,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "上传错误"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上傳錯誤"
           }
         }
       }
@@ -14095,6 +14926,12 @@
             "state" : "translated",
             "value" : "URL已复制到剪贴板"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "網址已複製到剪貼簿"
+          }
         }
       }
     },
@@ -14200,6 +15037,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "验证密码:"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "驗證密碼："
           }
         }
       }
@@ -14307,6 +15150,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "视图"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢視"
           }
         }
       }
@@ -14420,6 +15269,12 @@
             "state" : "translated",
             "value" : "我们检测到您是从 Mac App Store 安装的 FSNotes，数据默认存储在 iCloud 云盘，您想移动 iCloud 云盘中的旧数据库吗？"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我們偵測到您從 Mac App Store 安裝了 FSNotes，且預設儲存空間為 iCloud 雲碟 。您是否要將舊的資料庫移動至iCloud 雲碟 ?"
+          }
         }
       }
     },
@@ -14525,6 +15380,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "我们不能移动 \"{DST_PATH}\"，因为这个项目已经存在于选定的目标处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法移動”{DST_PATH}”，因為選定的目的地已存在此項目。"
           }
         }
       }
@@ -14632,6 +15493,12 @@
             "state" : "translated",
             "value" : "创建网页URL并打开"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "網頁"
+          }
         }
       }
     },
@@ -14737,6 +15604,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "网络发布错误"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "網頁發布錯誤"
           }
         }
       }
@@ -14844,6 +15717,12 @@
             "state" : "translated",
             "value" : "密码错误"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "密碼錯誤"
+          }
         }
       }
     },
@@ -14949,6 +15828,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重复密码输入不正确"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確認密碼不符 / 再次輸入的密碼錯誤"
           }
         }
       }
@@ -15056,6 +15941,12 @@
             "state" : "translated",
             "value" : "是的"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "是"
+          }
         }
       }
     },
@@ -15161,6 +16052,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "无法将已加密的备忘移动到加密目录。您必须首先解密备忘，然后重复上述步骤。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您無法將已加密的筆記移動至已加密的資料夾。請先將該筆記解密，然後再試一次。"
           }
         }
       }
